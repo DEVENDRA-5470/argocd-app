@@ -1,0 +1,36 @@
+name: CI Build Push Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t deviliam/argocd-test:latest .
+        docker push deviliam/argocd-test:latest
+
+    - name: Update GitOps repository
+      run: |
+        git clone https://x-access-token:${{ secrets.GITOPS_TOKEN }}@github.com/DEVENDRA-5470/argocd-gitops.git
+        cd argocd-gitops/apps/argocd-test
+
+        git config user.email "ci@github-actions"
+        git config user.name "github-actions"
+
+        git commit --allow-empty -am "Deploy latest image"
+        git push
