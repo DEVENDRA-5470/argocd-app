@@ -1,14 +1,386 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kubernetes — 100-topic Interview-ready Cheat Sheet</title>
+  <style>
+    a{
+        text-decoration: none;
+        color: white;
+    }
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#38bdf8;--white:#e6eef6}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#081022 0%, #071022 100%);color:var(--white);margin:0;padding:32px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+    h1{font-size:22px;margin:0}
+    p.lead{color:var(--muted);margin:0}
+    .container{display:grid;grid-template-columns:300px 1fr;gap:20px}
+    nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto}
+    nav h2{font-size:14px;margin:0 0 8px 0}
+    nav ol{padding-left:18px;color:var(--muted);margin:0}
+    main{background:transparent;padding:0}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    section.topic{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    section.topic h3{margin:0 0 6px 0;font-size:16px;color:var(--accent)}
+    section.topic p{margin:0;color:var(--muted);line-height:1.4}
+    .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .btn{background:#0b2233;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:var(--white);font-size:13px;cursor:pointer}
+    .search{flex:1}
+    .count{color:var(--muted);font-size:13px}
+    @media (max-width:900px){.container{grid-template-columns:1fr;}.nav{height:auto}}
+  </style>
 </head>
 <body>
-    <h1>Welcome to ArgoCD</h1>
-    <p>Version: v5</p>
-    
+  <header>
+    <div>
+      <h1>Kubernetes — 100-topic Interview-ready Cheat Sheet</h1>
+      <p class="lead">Concise, high-impact definitions for interview answers and quick revision. Each topic: 3–4 lines.</p>
+    </div>
+  </header>
 
+  <div class="container">
+    <nav class="card" id="toc">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#components">Kubernetes Components</a></li>
+        <li><a href="#t1">Cluster Architecture</a></li>
+        <li><a href="#t2">API Server</a></li>
+        <li><a href="#t3">etcd</a></li>
+        <li><a href="#t4">Scheduler</a></li>
+        <li><a href="#t5">Controller Manager</a></li>
+        <li><a href="#t6">Kubelet</a></li>
+        <li><a href="#t7">Kube-Proxy</a></li>
+        <li><a href="#t8">Pods</a></li>
+        <li><a href="#t9">ReplicaSet</a></li>
+        <li><a href="#t10">Deployment</a></li>
+        <li><a href="#t11">DaemonSet</a></li>
+        <li><a href="#t12">StatefulSet</a></li>
+        <li><a href="#t13">Job</a></li>
+        <li><a href="#t14">CronJob</a></li>
+        <li><a href="#t15">Services (ClusterIP, NodePort, LoadBalancer)</a></li>
+        <li><a href="#t16">Ingress</a></li>
+        <li><a href="#t17">Ingress Controller</a></li>
+        <li><a href="#t18">ConfigMap</a></li>
+        <li><a href="#t19">Secrets</a></li>
+        <li><a href="#t20">Volumes</a></li>
+        <li><a href="#t21">PersistentVolume (PV)</a></li>
+        <li><a href="#t22">PersistentVolumeClaim (PVC)</a></li>
+        <li><a href="#t23">StorageClass</a></li>
+        <li><a href="#t24">Container Runtime (CRI)</a></li>
+        <li><a href="#t25">Networking (CNI)</a></li>
+        <li><a href="#t26">Pod-to-Pod Networking</a></li>
+        <li><a href="#t27">Service Networking</a></li>
+        <li><a href="#t28">Network Policies</a></li>
+        <li><a href="#t29">RBAC (Role-Based Access Control)</a></li>
+        <li><a href="#t30">Service Accounts</a></li>
+        <li><a href="#t31">Namespaces</a></li>
+        <li><a href="#t32">Resource Quotas</a></li>
+        <li><a href="#t33">LimitRanges</a></li>
+        <li><a href="#t34">Horizontal Pod Autoscaler (HPA)</a></li>
+        <li><a href="#t35">Vertical Pod Autoscaler (VPA)</a></li>
+        <li><a href="#t36">Cluster Autoscaler</a></li>
+        <li><a href="#t37">Liveness Probe</a></li>
+        <li><a href="#t38">Readiness Probe</a></li>
+        <li><a href="#t39">Startup Probe</a></li>
+        <li><a href="#t40">Node Conditions</a></li>
+        <li><a href="#t41">Taints</a></li>
+        <li><a href="#t42">Tolerations</a></li>
+        <li><a href="#t43">Node Affinity</a></li>
+        <li><a href="#t44">Pod Affinity</a></li>
+        <li><a href="#t45">Pod Anti-Affinity</a></li>
+        <li><a href="#t46">Logging in Kubernetes</a></li>
+        <li><a href="#t47">Monitoring</a></li>
+        <li><a href="#t48">Metrics Server</a></li>
+        <li><a href="#t49">Audit Logs</a></li>
+        <li><a href="#t50">Helm</a></li>
+        <li><a href="#t51">Operators</a></li>
+        <li><a href="#t52">Custom Resource Definitions (CRDs)</a></li>
+        <li><a href="#t53">Admission Controllers</a></li>
+        <li><a href="#t54">API Groups & Versions</a></li>
+        <li><a href="#t55">kubeconfig</a></li>
+        <li><a href="#t56">kubectl Internals</a></li>
+        <li><a href="#t57">Manifest Writing</a></li>
+        <li><a href="#t58">GitOps Basics (ArgoCD / Flux)</a></li>
+        <li><a href="#t59">Service Mesh (Istio / Linkerd Basics)</a></li>
+        <li><a href="#t60">Multi-Container Pod Patterns</a></li>
+        <li><a href="#t61">Sidecar Containers</a></li>
+        <li><a href="#t62">Init Containers</a></li>
+        <li><a href="#t63">Pod Lifecycle</a></li>
+        <li><a href="#t64">Advanced Scheduling</a></li>
+        <li><a href="#t65">Custom Scheduler</a></li>
+        <li><a href="#t66">etcd Disaster Recovery</a></li>
+        <li><a href="#t67">Kubernetes Upgrade Strategy</a></li>
+        <li><a href="#t68">Multi-Cluster Management</a></li>
+        <li><a href="#t69">Cluster Federation</a></li>
+        <li><a href="#t70">Advanced Security (OPA Gatekeeper / Kyverno)</a></li>
+        <li><a href="#t71">Pod Security Standards (PSS)</a></li>
+        <li><a href="#t72">Network Policy Engines</a></li>
+        <li><a href="#t73">eBPF Tooling</a></li>
+        <li><a href="#t74">Multi-Tenant Clusters</a></li>
+        <li><a href="#t75">Node Pool Management</a></li>
+        <li><a href="#t76">GPU Scheduling</a></li>
+        <li><a href="#t77">Spot Instance Tolerance</a></li>
+        <li><a href="#t78">Karpenter (Autoscaling Engine)</a></li>
+        <li><a href="#t79">KEDA (Event-driven Autoscaling)</a></li>
+        <li><a href="#t80">EKS Architecture</a></li>
+        <li><a href="#t81">EKS Node Groups</a></li>
+        <li><a href="#t82">EKS Add-ons</a></li>
+        <li><a href="#t83">IAM Roles for Service Accounts (IRSA)</a></li>
+        <li><a href="#t84">Load Balancer Controller (AWS ALB/ELB)</a></li>
+        <li><a href="#t85">Container Storage Interface (CSI Drivers)</a></li>
+        <li><a href="#t86">Dynamic Provisioning Internals</a></li>
+        <li><a href="#t87">Request/Limit Tuning</a></li>
+        <li><a href="#t88">Pod Disruption Budgets (PDBs)</a></li>
+        <li><a href="#t89">Pod Priority & Preemption</a></li>
+        <li><a href="#t90">Traffic Shifting & Canary Deployments</a></li>
+        <li><a href="#t91">Blue-Green Deployments</a></li>
+        <li><a href="#t92">Prometheus Operator</a></li>
+        <li><a href="#t93">Grafana Dashboards</a></li>
+        <li><a href="#t94">Loki (Log Aggregation)</a></li>
+        <li><a href="#t95">Jaeger (Distributed Tracing)</a></li>
+        <li><a href="#t96">OpenTelemetry</a></li>
+        <li><a href="#t97">Backup & Restore Strategies</a></li>
+        <li><a href="#t98">Certificate Management (Cert-Manager)</a></li>
+        <li><a href="#t99">Cluster Logging Architecture</a></li>
+        <li><a href="#t100">Production Troubleshooting Workflow</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <div class="card">
+        <div class="controls">
+          <input id="search" class="search btn" placeholder="Search topic or keyword" oninput="filterTopics()" />
+          <div class="count" id="count">100 topics</div>
+        </div>
+
+        <!-- Topics -->
+        <section id="topics">
+
+          <!-- Kubernetes Components Section -->
+          <section class="topic" id="components"><h3>Kubernetes Components (Control Plane + Node)</h3><p><strong>Control Plane:</strong> API Server, etcd, Scheduler, Controller Manager — these coordinate the cluster and maintain desired state.</p><p><strong>Node Components:</strong> Kubelet, Kube-Proxy, and the Container Runtime — these run workloads, report health, and handle networking.</p><p>This section groups the official Kubernetes architecture components for quick interview recall.</p></section>
+
+
+          <section class="topic" id="t1"><h3>1. Cluster Architecture</h3><p>The foundational structure of Kubernetes consisting of a control plane and worker nodes. Control plane manages desired state, scheduling, and cluster-wide decisions. Worker nodes run workloads through Pods and report status back to the control plane. Ensures distributed, scalable, and fault-tolerant application execution.</p></section>
+
+          <section class="topic" id="t2"><h3>2. API Server</h3><p>The central management endpoint for all Kubernetes operations. Validates requests, enforces authentication/authorization, and exposes the Kubernetes API. Acts as the communication layer between users, controllers, and components. Stores and serves cluster state via etcd.</p></section>
+
+          <section class="topic" id="t3"><h3>3. etcd</h3><p>A distributed key-value store that holds the complete cluster state. Ensures strong consistency for all Kubernetes configuration and metadata. Used by the control plane to recover, reconstruct, or validate cluster state. Critical for reliability; backup and restore are high-priority operations.</p></section>
+
+          <section class="topic" id="t4"><h3>4. Scheduler</h3><p>Assigns Pods to nodes based on resource availability, constraints, and policies. Evaluates CPU, memory, affinity, taints, tolerations, and custom rules. Ensures optimal placement for performance and cluster balance. Decides where workloads run, not how they run.</p></section>
+
+          <section class="topic" id="t5"><h3>5. Controller Manager</h3><p>Contains core controllers that continuously reconcile the cluster’s desired state. Ensures Deployments, ReplicaSets, Nodes, and Jobs maintain their defined conditions. Automatically reacts to failures or changes to restore stability. Implements the self-healing behavior Kubernetes is known for.</p></section>
+
+          <section class="topic" id="t6"><h3>6. Kubelet</h3><p>Node-level agent responsible for managing Pod lifecycle. Ensures containers are running as defined in Pod specs. Communicates with container runtime and reports node health to the control plane. Without a functioning Kubelet, a node becomes unusable.</p></section>
+
+          <section class="topic" id="t7"><h3>7. Kube-Proxy</h3><p>Manages the virtual networking layer that enables Pod-to-Pod and Pod-to-Service communication. Handles service routing rules via iptables or IPVS. Ensures traffic is correctly load-balanced across healthy backends. Key component behind Kubernetes Service abstraction.</p></section>
+
+          <section class="topic" id="t8"><h3>8. Pods</h3><p>The smallest deployable unit containing one or more tightly coupled containers. Shares networking and storage among containers in the same pod. Designed to be ephemeral and replaced automatically by controllers. Represents a single instance of a running application.</p></section>
+
+          <section class="topic" id="t9"><h3>9. ReplicaSet</h3><p>Maintains a stable number of identical Pods to ensure availability. Automatically creates or removes Pods to match the desired replica count. Works under Deployments to handle scaling. Provides basic self-healing for stateless workloads.</p></section>
+
+          <section class="topic" id="t10"><h3>10. Deployment</h3><p>High-level controller for managing stateless application lifecycle. Supports rolling updates, rollbacks, and versioned rollout strategies. Ensures Pods run with consistent configuration across replicas. Most common resource for running production workloads.</p></section>
+
+          <section class="topic" id="t11"><h3>11. DaemonSet</h3><p>Ensures exactly one Pod runs on every node (or targeted nodes). Used for system-level agents such as log collectors and network tools. Automatically adds Pods when new nodes join the cluster. Guarantees consistent per-node service deployment.</p></section>
+
+          <section class="topic" id="t12"><h3>12. StatefulSet</h3><p>Manages stateful workloads requiring stable network identity and persistent storage. Ensures predictable Pod names, ordered rollout, and ordered termination. Works with PersistentVolumeClaims for data durability. Critical for databases and clustered storage systems.</p></section>
+
+          <section class="topic" id="t13"><h3>13. Job</h3><p>Runs tasks that must complete successfully rather than run continuously. Retries failed Pods until the task finishes as defined. Designed for batch, compute, and one-time tasks. Provides guaranteed execution semantics.</p></section>
+
+          <section class="topic" id="t14"><h3>14. CronJob</h3><p>Schedules Jobs to run at fixed times or intervals using cron expressions. Automates recurring workloads like backups or data cleanup. Ensures reliability even with cluster restarts. Handles concurrency and job history retention.</p></section>
+
+          <section class="topic" id="t15"><h3>15. Services (ClusterIP, NodePort, LoadBalancer)</h3><p>Abstracts Pod endpoints behind a stable virtual IP. ClusterIP exposes internally; NodePort opens a static port on every node; LoadBalancer integrates cloud LB. Performs built-in load balancing across healthy Pods. Enables reliable service discovery and traffic routing.</p></section>
+
+          <section class="topic" id="t16"><h3>16. Ingress</h3><p>Defines HTTP/HTTPS routing rules from external clients into the cluster. Simplifies URL-based routing, SSL termination, and domain mapping. Works through an Ingress controller implementation. Central to modern web-facing deployments.</p></section>
+
+          <section class="topic" id="t17"><h3>17. Ingress Controller</h3><p>Executes Ingress rules by configuring an underlying proxy like NGINX, HAProxy, or Envoy. Handles SSL offloading, path routing, rate-limiting, and rewrite rules. Monitors cluster changes via the API server. Enables production-grade traffic management.</p></section>
+
+          <section class="topic" id="t18"><h3>18. ConfigMap</h3><p>Stores non-sensitive configuration data decoupled from container images. Injected into Pods via environment variables or mounted files. Allows dynamic configuration updates without redeploying code. Supports separation of config and runtime behavior.</p></section>
+
+          <section class="topic" id="t19"><h3>19. Secrets</h3><p>Stores sensitive data like passwords, tokens, and certificates. Encoded and protected through Kubernetes RBAC and encryption-at-rest. Mounted securely into Pods or exposed as environment variables. Minimizes risk by preventing credentials from being hard-coded.</p></section>
+
+          <section class="topic" id="t20"><h3>20. Volumes</h3><p>Provides storage inside Pods that survives container restarts. Supports types like emptyDir, hostPath, configMap, secret, and more. Forms the foundation for persistent storage integrations. Controls how containers access and use file systems.</p></section>
+
+          <section class="topic" id="t21"><h3>21. PersistentVolume (PV)</h3><p>Cluster-level resource representing actual storage provisioned by admin or cloud provider. Abstracts physical storage behind a stable API. Decouples storage lifecycle from Pod lifecycle. Works with PVCs for dynamic or static binding.</p></section>
+
+          <section class="topic" id="t22"><h3>22. PersistentVolumeClaim (PVC)</h3><p>User request for persistent storage with specific size and access modes. Automatically binds to a suitable PV. Enables self-service storage provisioning. Ensures Pods receive durable data volumes.</p></section>
+
+          <section class="topic" id="t23"><h3>23. StorageClass</h3><p>Defines templates and provisioners for dynamic PV creation. Allows applications to request storage types like SSD, HDD, or encrypted volumes. Automates provisioning with parameters such as IOPS or replication. Core to scalable storage workflows.</p></section>
+
+          <section class="topic" id="t24"><h3>24. Container Runtime (CRI)</h3><p>Executes containers within Pods using engines like containerd or CRI-O. Communicates through the Container Runtime Interface for consistency. Handles image pulls, container start/stop, and resource isolation. Critical for performance, stability, and security.</p></section>
+
+          <section class="topic" id="t25"><h3>25. Networking (CNI)</h3><p>Enables Pod IP allocation and Pod-to-Pod communication across nodes. Uses CNI plugins like Calico, Flannel, or Cilium. Enforces network isolation policies where supported. Ensures consistent, scalable network behavior.</p></section>
+
+          <section class="topic" id="t26"><h3>26. Pod-to-Pod Networking</h3><p>Every Pod receives a unique routable IP within the cluster. No NAT is required between Pods, simplifying communication. Achieved through CNI-managed overlay or routed networks. Enables distributed microservices communication.</p></section>
+
+          <section class="topic" id="t27"><h3>27. Service Networking</h3><p>Provides virtual IP-based load balancing across Pod backends. Uses kube-proxy to implement routing via iptables or IPVS rules. Supports internal and external traffic patterns. Offers stable endpoints despite Pod replacement.</p></section>
+
+          <section class="topic" id="t28"><h3>28. Network Policies</h3><p>Firewall-like rules controlling which Pods may communicate. Enforces zero-trust networking within the cluster. Implemented by capable CNI providers (e.g., Calico). Key component of Kubernetes security posture.</p></section>
+
+          <section class="topic" id="t29"><h3>29. RBAC (Role-Based Access Control)</h3><p>Controls user and service account permissions to Kubernetes resources. Uses Roles, ClusterRoles, RoleBindings, and ClusterRoleBindings. Enforces least-privilege principles in multi-user environments. Essential for securing the control plane.</p></section>
+
+          <section class="topic" id="t30"><h3>30. Service Accounts</h3><p>Identities used by Pods to authenticate with the API server. Replaces manual credential management inside containers. Works with RBAC to provide scoped permissions. Foundation for cloud IAM integrations like AWS IRSA.</p></section>
+
+          <section class="topic" id="t31"><h3>31. Namespaces</h3><p>Logical partitions that isolate resources within the same cluster. Enable multi-team and multi-tenant environments. Used to apply RBAC, quotas, and policies at a scoped level. Improve organization and security boundaries.</p></section>
+
+          <section class="topic" id="t32"><h3>32. Resource Quotas</h3><p>Enforce limits on CPU, memory, and object counts per namespace. Prevent a single team or workload from consuming entire cluster capacity. Often paired with LimitRanges for finer-grained controls. Critical for stable shared clusters.</p></section>
+
+          <section class="topic" id="t33"><h3>33. LimitRanges</h3><p>Define default and maximum CPU/memory limits for Pods in a namespace. Ensure applications do not run without resource boundaries. Prevent noisy-neighbor performance issues. Encourages predictable scheduling and stability.</p></section>
+
+          <section class="topic" id="t34"><h3>34. Horizontal Pod Autoscaler (HPA)</h3><p>Automatically scales Pods based on CPU, memory, or custom metrics. Continuously adjusts replica count to match workload demand. Integrates with Metrics Server or Prometheus adapters. Key tool for responsive and cost-efficient scaling.</p></section>
+
+          <section class="topic" id="t35"><h3>35. Vertical Pod Autoscaler (VPA)</h3><p>Automatically adjusts a Pod’s CPU and memory requests/limits. Improves resource accuracy for long-running workloads. Works in recommendation, auto, or off modes. Reduces under-provisioning and over-provisioning.</p></section>
+
+          <section class="topic" id="t36"><h3>36. Cluster Autoscaler</h3><p>Adds or removes nodes based on pending Pods and resource pressure. Works with cloud providers like AWS, GCP, and Azure. Maintains optimal node count with minimal manual intervention. Essential for cost optimization in dynamic environments.</p></section>
+
+          <section class="topic" id="t37"><h3>37. Liveness Probe</h3><p>Detects when a container is unhealthy and needs restarting. Uses HTTP checks, TCP checks, or command execution. Prevents stuck processes from impacting service uptime. Helps maintain application correctness.</p></section>
+
+          <section class="topic" id="t38"><h3>38. Readiness Probe</h3><p>Determines when a Pod is ready to receive traffic. Ensures load balancers do not route traffic prematurely. Often used during app initialization or warm-up. Protects user traffic from unstable Pods.</p></section>
+
+          <section class="topic" id="t39"><h3>39. Startup Probe</h3><p>Allows slow-starting containers to complete initialization. Prevents premature liveness failures during heavy boot phases. Ideal for Java, database clients, or large frameworks. Improves stability for complex services.</p></section>
+
+          <section class="topic" id="t40"><h3>40. Node Conditions</h3><p>Represent the health and status of a node (Ready, MemoryPressure, DiskPressure, etc.). Influence scheduling and eviction decisions. Automatically updated by Kubelet and health controllers. Critical for diagnosing cluster-level performance issues.</p></section>
+
+          <section class="topic" id="t41"><h3>41. Taints</h3><p>Mark nodes with conditions that repel certain Pods. Force Pods to tolerate a node before they can schedule onto it. Used for dedicated hardware, isolation, or maintenance. Helps enforce placement rules at node level.</p></section>
+
+          <section class="topic" id="t42"><h3>42. Tolerations</h3><p>Allow Pods to schedule onto tainted nodes. Do not guarantee placement but permit eligibility. Enable workload segregation and controlled isolation. Often used with node pools or special-purpose nodes.</p></section>
+
+          <section class="topic" id="t43"><h3>43. Node Affinity</h3><p>Defines node-selection rules based on labels. Soft or hard constraints guide Pod placement. Improves workload distribution and location optimization. Useful for hardware-aware or zone-aware deployments.</p></section>
+
+          <section class="topic" id="t44"><h3>44. Pod Affinity</h3><p>Ensures Pods run close to other Pods with matching labels. Improves performance for chatty, tightly coupled services. Helps reduce latency by leveraging proximity. Often used in microservices clusters.</p></section>
+
+          <section class="topic" id="t45"><h3>45. Pod Anti-Affinity</h3><p>Prevents Pods from running on the same node as matching Pods. Improves high availability and fault tolerance. Reduces risk of simultaneous failure of replicas. Common for stateless replicated applications.</p></section>
+
+          <section class="topic" id="t46"><h3>46. Logging in Kubernetes</h3><p>Captures container stdout/stderr as primary log sources. Uses sidecars, DaemonSets, or agents for centralized collection. Integrates with stacks like EFK or Loki. Key for debugging and production observability.</p></section>
+
+          <section class="topic" id="t47"><h3>47. Monitoring</h3><p>Measures health, performance, and resource consumption. Prometheus is the standard for scraping and storing metrics. Enables alerting through rules and dashboards via Grafana. Essential for capacity planning and incident response.</p></section>
+
+          <section class="topic" id="t48"><h3>48. Metrics Server</h3><p>Lightweight component providing resource metrics (CPU, memory) for HPA. Does not store historical data; offers near real-time snapshots. Crucial for autoscaling decisions. Mandatory for clusters using HPA-based scaling.</p></section>
+
+          <section class="topic" id="t49"><h3>49. Audit Logs</h3><p>Record every request made to the API server. Used for compliance, security investigations, and traceability. Support configurable log policies for verbosity and filtering. Provide full visibility into cluster operations.</p></section>
+
+          <section class="topic" id="t50"><h3>50. Helm</h3><p>Package manager for Kubernetes applications using charts. Enables versioned, repeatable deployments with templates. Simplifies complex manifests into reusable units. Essential for managing microservices and large-scale apps.</p></section>
+
+          <section class="topic" id="t51"><h3>51. Operators</h3><p>Extend Kubernetes by encoding operational logic into custom controllers. Automate complex lifecycle tasks such as backups, scaling, and updates. Built using the Operator pattern on top of Custom Resources. Ideal for managing stateful or domain-specific applications.</p></section>
+
+          <section class="topic" id="t52"><h3>52. Custom Resource Definitions (CRDs)</h3><p>Allow creation of new Kubernetes resource types beyond built-in objects. Extend the API server to support domain-specific workflows. Used by Operators, service meshes, and storage systems. Core mechanism for customizing Kubernetes behavior.</p></section>
+
+          <section class="topic" id="t53"><h3>53. Admission Controllers</h3><p>Intercept API requests before they are persisted. Validate, mutate, or enforce policies on incoming objects. Used for security, governance, and resource standardization. Include built-in controllers and webhook-based extensions.</p></section>
+
+          <section class="topic" id="t54"><h3>54. API Groups & Versions</h3><p>Organize Kubernetes resources under structured API endpoints. Enable evolution of features using versions like v1alpha1, v1beta1, and stable v1. Allow backward compatibility and controlled feature rollout. Form the basis of Kubernetes’ extensible API design.</p></section>
+
+          <section class="topic" id="t55"><h3>55. kubeconfig</h3><p>Configuration file containing cluster endpoints, credentials, and contexts. Determines how kubectl authenticates and targets clusters. Supports multiple clusters and user profiles in one file. Mandatory for secure and organized cluster access.</p></section>
+
+          <section class="topic" id="t56"><h3>56. kubectl Internals</h3><p>CLI tool that interacts with the API server using REST calls. Supports CRUD operations, debugging commands, and declarative workflows. Converts YAML manifests into API requests. Acts as the primary interface for Kubernetes operators.</p></section>
+
+          <section class="topic" id="t57"><h3>57. Manifest Writing</h3><p>Authoring YAML definitions for Kubernetes resources. Encodes desired state including replicas, configurations, probes, and policies. Must follow strict API structures and schema. Critical skill for declarative infrastructure.</p></section>
+
+          <section class="topic" id="t58"><h3>58. GitOps Basics (ArgoCD / Flux)</h3><p>Manages cluster state by treating Git as the single source of truth. Automatically syncs manifests from repositories to clusters. Enables versioned, audit-ready deployments. Reduces manual configuration drift.</p></section>
+
+          <section class="topic" id="t59"><h3>59. Service Mesh (Istio / Linkerd Basics)</h3><p>Adds traffic management, mTLS encryption, and observability via sidecar proxies. Separates application logic from networking concerns. Supports retries, circuit breaking, and traffic shaping. Ideal for complex microservice environments.</p></section>
+
+          <section class="topic" id="t60"><h3>60. Multi-Container Pod Patterns</h3><p>Combines multiple containers to work together inside one Pod. Common patterns include sidecar, ambassador, and adapter. Enables shared IPC, storage, and networking. Solves tight coupling requirements without multiple Pods.</p></section>
+
+          <section class="topic" id="t61"><h3>61. Sidecar Containers</h3><p>Secondary container providing supporting functionality for the main container. Used for logging, proxying, caching, or configuration updates. Shares lifecycle and networking within the Pod. Core to service mesh architectures.</p></section>
+
+          <section class="topic" id="t62"><h3>62. Init Containers</h3><p>Run before the main containers to perform setup or validation tasks. Useful for dependency checks, config generation, or environment preparation. Must complete successfully before the Pod transitions to Running. Isolate initialization logic from application logic.</p></section>
+
+          <section class="topic" id="t63"><h3>63. Pod Lifecycle</h3><p>States include Pending, Running, Succeeded, Failed, and Unknown. Defined through container lifecycles, probes, and restart policies. Helps diagnose startup failures and runtime behaviors. Essential for understanding Pod state transitions.</p></section>
+
+          <section class="topic" id="t64"><h3>64. Advanced Scheduling</h3><p>Uses custom rules, priorities, and preemption for Pod placement. Supports extending scheduler behavior through plugins. Enables workload shaping based on business or technical constraints. Critical for complex, multi-tenant clusters.</p></section>
+
+          <section class="topic" id="t65"><h3>65. Custom Scheduler</h3><p>User-built scheduler used to override or enhance default scheduling logic. Works by watching Pods and binding them to nodes. Useful for specialized resource requirements. Often deployed alongside the default scheduler.</p></section>
+
+          <section class="topic" id="t66"><h3>66. etcd Disaster Recovery</h3><p>Backup strategies for cluster state using snapshots. Restore procedures to recover from corruption or data loss. Ensures high availability and cluster continuity. A core skill for Kubernetes administrators.</p></section>
+
+          <section class="topic" id="t67"><h3>67. Kubernetes Upgrade Strategy</h3><p>Safely upgrading control plane and node components. Ensures backward compatibility using version skew policies. Requires draining nodes and validating workloads. High-risk operation demanding planning and rollback steps.</p></section>
+
+          <section class="topic" id="t68"><h3>68. Multi-Cluster Management</h3><p>Operating multiple clusters with centralized governance. Includes workload distribution, identity, and configuration synchronization. Supported by tools like Rancher, Anthos, and ArgoCD. Enables scale and regional redundancy.</p></section>
+
+          <section class="topic" id="t69"><h3>69. Cluster Federation</h3><p>Connects multiple clusters to behave as one logical unit. Replicates resources and balances workloads across regions. Useful for disaster recovery and multi-cloud strategies. Complex to maintain due to cross-cluster coordination.</p></section>
+
+          <section class="topic" id="t70"><h3>70. Advanced Security (OPA Gatekeeper / Kyverno)</h3><p>Policy-as-code enforcement for security and compliance. Prevents misconfigurations before they enter the cluster. Validates configurations dynamically using admission controls. Essential for enterprise-grade governance.</p></section>
+
+          <section class="topic" id="t71"><h3>71. Pod Security Standards (PSS)</h3><p>Defines baseline, restricted, and privileged security levels for Pods. Controls capabilities, privilege escalation, and runtime permissions. Applied through admission plugins or policy engines. A foundation for secure workload deployment.</p></section>
+
+          <section class="topic" id="t72"><h3>72. Network Policy Engines</h3><p>Implement enforcement of Kubernetes Network Policies. Engines like Calico, Cilium, and WeaveNet enhance policy capabilities. Provide L3/L4 filtering and, in some cases, L7 visibility. Strengthen zero-trust cluster design.</p></section>
+
+          <section class="topic" id="t73"><h3>73. eBPF Tooling</h3><p>Kernel-level technology for high-performance networking and observability. Used by Cilium for routing, security, and traffic inspection. Enables low-overhead tracing and packet filtering. Represents modern high-performance cluster networking.</p></section>
+
+          <section class="topic" id="t74"><h3>74. Multi-Tenant Clusters</h3><p>Shared clusters serving multiple teams or applications securely. Requires strict RBAC, quotas, namespaces, and network isolation. Reduces cost by avoiding separate clusters. Difficult to manage without strong governance.</p></section>
+
+          <section class="topic" id="t75"><h3>75. Node Pool Management</h3><p>Groups nodes based on hardware class, purpose, or workload type. Used to assign Pods using taints, tolerations, or affinity rules. Enables cost and performance optimization. Essential for production-grade autoscaling.</p></section>
+
+          <section class="topic" id="t76"><h3>76. GPU Scheduling</h3><p>Allocates GPU resources to Pods through device plugins. Ensures workloads requiring CUDA or ML acceleration receive exclusive GPU access. Requires nodes with proper drivers and runtime support. Critical for AI/ML platforms running on Kubernetes.</p></section>
+
+          <section class="topic" id="t77"><h3>77. Spot Instance Tolerance</h3><p>Designs workloads that survive unexpected node terminations on spot/preemptible VMs. Uses Pod Disruption Budgets, anti-affinity, and graceful shutdowns. Reduces cost while maintaining reliability. Essential for cost-driven production environments.</p></section>
+
+          <section class="topic" id="t78"><h3>78. Karpenter (Autoscaling Engine)</h3><p>Replaces Cluster Autoscaler with faster, more flexible scaling. Launches optimized nodes based on real-time workload needs. Reduces waste by selecting right-size instances. A modern autoscaler used heavily in AWS EKS.</p></section>
+
+          <section class="topic" id="t79"><h3>79. KEDA (Event-driven Autoscaling)</h3><p>Scales applications based on external event sources, not only CPU/memory. Supports triggers like queue length, Kafka lag, or HTTP RPS. Works alongside HPA for hybrid scaling. Ideal for modern event-driven architectures.</p></section>
+
+          <section class="topic" id="t80"><h3>80. EKS Architecture (Amazon Elastic Kubernetes Service)</h3><p>Managed Kubernetes control plane provided by AWS. Separates control plane from customer-managed worker nodes. Integrates with IAM, VPC CNI, ALB, and EBS drivers. Simplifies cluster operations at scale.</p></section>
+
+          <section class="topic" id="t81"><h3>81. EKS Node Groups</h3><p>Managed or self-managed pools of worker nodes. Enable different instance types, capacities, and scaling rules. Use taints, labels, and affinity for workload control. Core to cost and performance tuning on AWS.</p></section>
+
+          <section class="topic" id="t82"><h3>82. EKS Add-ons</h3><p>Pre-packaged critical components: CoreDNS, kube-proxy, and VPC CNI. Managed updates and lifecycle by AWS. Improve stability with minimal operational overhead. Provide consistent networking and DNS services.</p></section>
+
+          <section class="topic" id="t83"><h3>83. IAM Roles for Service Accounts (IRSA)</h3><p>Maps Kubernetes service accounts to AWS IAM roles securely. Eliminates the need for storing AWS credentials in Pods. Provides fine-grained cloud permissions per workload. The industry-standard method for cloud integration.</p></section>
+
+          <section class="topic" id="t84"><h3>84. Load Balancer Controller (AWS ALB/ELB)</h3><p>Creates and manages cloud load balancers from Kubernetes Ingress or Services. Supports path routing, TLS termination, WAF, and HTTP2. Ensures smooth integration between Kubernetes and cloud networking. Key to internet-facing applications.</p></section>
+
+          <section class="topic" id="t85"><h3>85. Container Storage Interface (CSI Drivers)</h3><p>Standard interface for integrating external storage providers. Enables dynamic provisioning for EBS, EFS, Ceph, and other systems. Replaces in-tree storage plugins for better modularity. Powers persistent volume workflows.</p></section>
+
+          <section class="topic" id="t86"><h3>86. Dynamic Provisioning Internals</h3><p>Automatically creates PVs when PVCs are requested. Uses StorageClass parameters to define performance and retention. Eliminates manual storage provisioning steps. Essential for large-scale stateful workloads.</p></section>
+
+          <section class="topic" id="t87"><h3>87. Request/Limit Tuning</h3><p>Configuring accurate resource requests ensures proper scheduling. Setting limits prevents runaway containers from consuming entire nodes. Balances performance, stability, and autoscaling efficiency. A core skill for optimizing cluster capacity.</p></section>
+
+          <section class="topic" id="t88"><h3>88. Pod Disruption Budgets (PDBs)</h3><p>Define the minimum number of Pods that must stay available during voluntary disruptions. Protect applications from unsafe rolling updates or drain operations. Critical for high-availability microservices. Used heavily in production-grade clusters.</p></section>
+
+          <section class="topic" id="t89"><h3>89. Pod Priority & Preemption</h3><p>Assigns relative importance to workloads using priority classes. Enables critical Pods to preempt lower-priority Pods during resource shortage. Ensures mission-critical services always receive resources first. Improves resilience under high load.</p></section>
+
+          <section class="topic" id="t90"><h3>90. Traffic Shifting & Canary Deployments</h3><p>Gradually moves traffic to new versions using weighted routing. Reduces deployment risk by validating stability under real load. Often implemented through Ingress, service mesh, or custom controllers. Standard practice for safe production rollouts.</p></section>
+
+          <section class="topic" id="t91"><h3>91. Blue-Green Deployments</h3><p>Maintains two complete environments (blue=active, green=idle). Switches traffic instantly to the new version once validated. Enables fast rollback with minimal downtime. Used for critical applications requiring zero disruption.</p></section>
+
+          <section class="topic" id="t92"><h3>92. Prometheus Operator</h3><p>Manages Prometheus, Alertmanager, and related CRDs declaratively. Simplifies monitoring stack deployment and lifecycle. Automatically discovers and scrapes services. A standard solution for Kubernetes observability.</p></section>
+
+          <section class="topic" id="t93"><h3>93. Grafana Dashboards</h3><p>Visualize metrics from Prometheus, Loki, and other data sources. Provide operational insights into performance and failures. Support templated dashboards for multi-tenant clusters. Essential for incident response and SRE workflows.</p></section>
+
+          <section class="topic" id="t94"><h3>94. Loki (Log Aggregation)</h3><p>Lightweight log storage solution optimized for Kubernetes. Uses labels like Prometheus for efficient indexing. Integrates with Grafana for unified logs and metrics. A cost-effective alternative to Elasticsearch stacks.</p></section>
+
+          <section class="topic" id="t95"><h3>95. Jaeger (Distributed Tracing)</h3><p>Captures end-to-end request flows across microservices. Helps diagnose latency, bottlenecks, and downstream issues. Integrates with service mesh sidecars for auto-instrumentation. Important for high-complexity distributed systems.</p></section>
+
+          <section class="topic" id="t96"><h3>96. OpenTelemetry</h3><p>Standard framework for metrics, logs, and traces collection. Provides vendor-neutral instrumentation across services. Powers full observability stacks in modern platforms. Becoming a default choice for cloud-native ecosystems.</p></section>
+
+          <section class="topic" id="t97"><h3>97. Backup & Restore Strategies</h3><p>Protect cluster state, PV data, and application configuration. Tools like Velero provide automated backup policies. Required for DR (disaster recovery) and compliance. Critical for production workloads with persistent data.</p></section>
+
+          <section class="topic" id="t98"><h3>98. Certificate Management (Cert-Manager)</h3><p>Automates TLS certificate issuance and renewal. Integrates with Let’s Encrypt, Vault, and internal PKI. Simplifies secure Ingress and service communication. Essential for encrypted, compliant deployments.</p></section>
+
+          <section class="topic" id="t99"><h3>99. Cluster Logging Architecture</h3><p>Centralized log collection from nodes and containers. Uses agents like FluentD, FluentBit, or Vector. Routes logs to storage such as Loki, Elasticsearch, or S3. Enables deep visibility into cluster behavior.</p></section>
+
+          <section class="topic" id="t100"><h3>100. Production Troubleshooting Workflow</h3><p>Systematic process for identifying failures in Pods, nodes, or networking. Uses logs, events, metrics, probes, and cluster state as evidence. Requires understanding of workload patterns and control-plane behavior. The single most important real-world skill for Kubernetes engineers.</p></section>
+
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function filterTopics(){
+      const q = document.getElementById('search').value.toLowerCase();
+      const topics = document.querySelectorAll('.topic');
+      let visible = 0;
+      topics.forEach(t => {
+        const text = t.innerText.toLowerCase();
+        if(!q || text.includes(q)){
+          t.style.display = '';
+          visible++;
+        } else {
+          t.style.display = 'none';
+        }
+      });
+      document.getElementById('count').innerText = visible + ' topics';
+    }
+  </script>
 </body>
 </html>
