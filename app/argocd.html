@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ArgoCD — 100-topic Interview-ready Cheat Sheet</title>
+  <style>
+    a{
+        text-decoration: none;
+        color: white;
+    }
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#38bdf8;--white:#e6eef6}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#081022 0%, #071022 100%);color:var(--white);margin:0;padding:32px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+    h1{font-size:22px;margin:0}
+    p.lead{color:var(--muted);margin:0}
+    .container{display:grid;grid-template-columns:300px 1fr;gap:20px}
+    nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto}
+    nav h2{font-size:14px;margin:0 0 8px 0}
+    nav ol{padding-left:18px;color:var(--muted);margin:0}
+    main{background:transparent;padding:0}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    section.topic{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    section.topic h3{margin:0 0 6px 0;font-size:16px;color:var(--accent)}
+    section.topic p{margin:0;color:var(--muted);line-height:1.4}
+    .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .btn{background:#0b2233;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:var(--white);font-size:13px;cursor:pointer}
+    .search{flex:1}
+    .count{color:var(--muted);font-size:13px}
+    @media (max-width:900px){.container{grid-template-columns:1fr;}.nav{height:auto}}
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>ArgoCD — 100-topic Interview-ready Cheat Sheet</h1>
+      <p class="lead">Concise, production-focused definitions for fast interview prep. Each topic: 2–4 lines.</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="card" id="toc">
+      <h2>Contents (100 topics)</h2>
+      <ol>
+        <!-- we'll include top-level numbered links -->
+        <!-- Core 30 -->
+        <li><a href="#t1"> GitOps Principles</a></li>
+        <li><a href="#t2"> ArgoCD Overview</a></li>
+        <li><a href="#t3"> Application CRD</a></li>
+        <li><a href="#t4"> Repositories</a></li>
+        <li><a href="#t5"> Reconciler</a></li>
+        <li><a href="#t6"> Sync Process</a></li>
+        <li><a href="#t7"> Desired vs Live State</a></li>
+        <li><a href="#t8">App of Apps Pattern</a></li>
+        <li><a href="#t9">Projects</a></li>
+        <li><a href="#t10"> Cluster Credentials</a></li>
+        <li><a href="#t11">Sync Waves & Hooks</a></li>
+        <li><a href="#t12">Health Checks</a></li>
+        <li><a href="#t13">Resource Tracking</a></li>
+        <li><a href="#t14">Auto-Sync</a></li>
+        <li><a href="#t15">Manual Sync</a></li>
+        <li><a href="#t16">Rollback</a></li>
+        <li><a href="#t17">Declarative Setup</a></li>
+        <li><a href="#t18">Declarative Rollouts (Argo Rollouts)</a></li>
+        <li><a href="#t19">Kustomize Support</a></li>
+        <li><a href="#t20">Helm Support</a></li>
+        <li><a href="#t21">Jsonnet & Plugins</a></li>
+        <li><a href="#t22">Application Similarity</a></li>
+        <li><a href="#t23">Sync Options</a></li>
+        <li><a href="#t24">Sync Windows</a></li>
+        <li><a href="#t25">Resource Overrides</a></li>
+        <li><a href="#t26">App Status & History</a></li>
+        <li><a href="#t27">CLI (argocd)</a></li>
+        <li><a href="#t28">UI Dashboard</a></li>
+        <li><a href="#t29">API Server</a></li>
+        <li><a href="#t30">Repo Server</a></li>
+        <!-- Industry 50 (3) condensed numbering continues -->
+        <li><a href="#t31"> Dex/SSO Integration</a></li>
+        <li><a href="#t32"> RBAC in ArgoCD</a></li>
+        <li><a href="#t33"> Single Sign-On (SSO)</a></li>
+        <li><a href="#t34"> TLS & Certs</a></li>
+        <li><a href="#t35"> Secret Management</a></li>
+        <li><a href="#t36"> K8s Service Accounts</a></li>
+        <li><a href="#t37"> Multi-Cluster Support</a></li>
+        <li><a href="#t38"> App Path / Directory Strategies</a></li>
+        <li><a href="#t39"> Monorepo vs Multi-repo</a></li>
+        <li><a href="#t40"> Webhooks (Git events)</a></li>
+        <li><a href="#t41">Health Assessment Hooks</a></li>
+        <li><a href="#t42">Custom Health Checks</a></li>
+        <li><a href="#t43">Notifications (Slack, Email)</a></li>
+        <li><a href="#t44">Tracing & Observability</a></li>
+        <li><a href="#t45">Metrics & Prometheus</a></li>
+        <li><a href="#t46">Audit Logs & Compliance</a></li>
+        <li><a href="#t47">Performance Tuning</a></li>
+        <li><a href="#t48">Scalability Patterns</a></li>
+        <li><a href="#t49">High Availability</a></li>
+        <li><a href="#t50">Backup & Restore</a></li>
+        <li><a href="#t51"> Git Credentials & SSH</a></li>
+        <li><a href="#t52"> OAuth Tokens & PATs</a></li>
+        <li><a href="#t53"> Cluster Bootstrapping</a></li>
+        <li><a href="#t54"> Automated GitOps Pipelines</a></li>
+        <li><a href="#t55"> Image Automation (argocd-image-updater)</a></li>
+        <li><a href="#t56"> Helmfile & Charts Management</a></li>
+        <li><a href="#t57"> Kustomize Overlays Best Practices</a></li>
+        <li><a href="#t58"> Directory Layouts for Apps</a></li>
+        <li><a href="#t59"> Secrets Encryption (SealedSecrets/Vault)</a></li>
+        <li><a href="#t60"> Git Hooks vs Polling</a></li>
+        <li><a href="#t61"> ArgoCD Notifications Controller</a></li>
+        <li><a href="#t62"> Policy Enforcement</a></li>
+        <li><a href="#t63"> Project Quotas & Limits</a></li>
+        <li><a href="#t64"> Automated Drift Detection</a></li>
+        <li><a href="#t65"> Drift Remediation Strategies</a></li>
+        <li><a href="#t66"> Secrets Sync Considerations</a></li>
+        <li><a href="#t67"> Cross-Namespace Deployments</a></li>
+        <li><a href="#t68"> App Sync Strategies for Stateful Apps</a></li>
+        <li><a href="#t69"> Resource Pruning</a></li>
+        <li><a href="#t70"> Garbage Collection</a></li>
+        <li><a href="#t71"> Web UI Customization</a></li>
+        <li><a href="#t72"> Secrets Scanning</a></li>
+        <li><a href="#t73"> Canary & Blue-Green via Rollouts</a></li>
+        <li><a href="#t74"> Argo Rollouts Integration</a></li>
+        <li><a href="#t75"> Notifications & Event Hooks</a></li>
+        <li><a href="#t76"> Event-driven GitOps Patterns</a></li>
+        <li><a href="#t77"> Multi-tenancy with Projects</a></li>
+        <li><a href="#t78"> GitOps Security Best Practices</a></li>
+        <li><a href="#t79"> SSO Role Mappings</a></li>
+        <li><a href="#t80"> Repo Health & Sync Frequency</a></li>
+        <!-- Expert 20 (81-100) -->
+        <li><a href="#t81">ArgoCD API Server Internals</a></li>
+        <li><a href="#t82">Repo-Server Internals</a></li>
+        <li><a href="#t83">Controller Loop Mechanics</a></li>
+        <li><a href="#t84">Multi-Cluster Strategies</a></li>
+        <li><a href="#t85">Scaling ArgoCD Components</a></li>
+        <li><a href="#t86">Consistency & Conflict Handling</a></li>
+        <li><a href="#t87">Drift Edge Cases</a></li>
+        <li><a href="#t88">Performance Benchmarking</a></li>
+        <li><a href="#t89">Large Repo Management</a></li>
+        <li><a href="#t90">Repo Sharding</a></li>
+        <li><a href="#t91">Security Incident Response</a></li>
+        <li><a href="#t92">High-throughput Webhooks</a></li>
+        <li><a href="#t93">Offline Repo Syncing</a></li>
+        <li><a href="#t94">Custom Resource Caching</a></li>
+        <li><a href="#t95">Advanced Health Assessment</a></li>
+        <li><a href="#t96">Event Delivery Guarantees</a></li>
+        <li><a href="#t97">Observability at Scale</a></li>
+        <li><a href="#t98">Disaster Recovery for ArgoCD</a></li>
+        <li><a href="#t99">Enterprise Features & Licensing</a></li>
+        <li><a href="#t100">Production Troubleshooting Workflow</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <div class="card">
+        <div class="controls">
+          <input id="search" class="search btn" placeholder="Search topic or keyword" oninput="filterTopics()" />
+          <div class="count" id="count">100 topics</div>
+        </div>
+
+        <section id="topics">
+          <!-- Core 1-30 -->
+          <section class="topic" id="t1"><h3>1. GitOps Principles</h3><p>Source-of-truth is Git: declarative configs are stored in Git and automatically reconciled to desired cluster state. Enables auditable, versioned deployments and easy rollbacks. Simplifies drift detection and operational consistency.</p></section>
+
+          <section class="topic" id="t2"><h3>2. ArgoCD Overview</h3><p>Declarative continuous delivery tool implementing GitOps for Kubernetes. Watches Git repos, computes diffs, and reconciles cluster state via a controller. Provides UI, CLI, API, and notifications for app lifecycle.</p></section>
+
+          <section class="topic" id="t3"><h3>3. Application CRD</h3><p>Primary ArgoCD resource describing a Git source, target cluster/namespace, and sync parameters. Encapsulates how manifests are fetched, transformed, and applied. Central to app lifecycle and history tracking.</p></section>
+
+          <section class="topic" id="t4"><h3>4. Repositories</h3><p>Git repositories (HTTP/SSH) storing manifests, Helm charts, or Kustomize overlays. ArgoCD maintains authenticated access via SSH keys or tokens. Repo layout influences sync reliability and performance.</p></section>
+
+          <section class="topic" id="t5"><h3>5. Reconciler</h3><p>Controller loop that compares desired state (Git) and live cluster state, then applies necessary changes. Handles resource creation, update, and pruning. Core to continuous convergence.</p></section>
+
+          <section class="topic" id="t6"><h3>6. Sync Process</h3><p>Sequence ArgoCD follows to apply changes: fetch repo, render manifests, compare, apply, and verify health. Can be manual or automated with options for hooks and strategies. Provenance recorded in history.</p></section>
+
+          <section class="topic" id="t7"><h3>7. Desired vs Live State</h3><p>Desired state = Git; Live state = cluster. ArgoCD surfaces diffs and enables reconciliation. Understanding both is key to resolving drift and preventing unintended changes.</p></section>
+
+          <section class="topic" id="t8"><h3>8. App of Apps Pattern</h3><p>Top-level Application managing other Application CRs; enables hierarchical GitOps, modular deploys, and environment promotion. Simplifies multi-app orchestration from a single repo.</p></section>
+
+          <section class="topic" id="t9"><h3>9. Projects</h3><p>Logical grouping for Applications with constraints on repo, destination clusters/namespaces, and RBAC. Provides multi-tenant boundaries and policy scoping within ArgoCD.</p></section>
+
+          <section class="topic" id="t10"><h3>10. Cluster Credentials</h3><p>ArgoCD stores Kubernetes cluster credentials (kubeconfigs) to deploy into target clusters. Credentials are scoped by Projects and must be secured. Properly managed creds enable multi-cluster GitOps.</p></section>
+
+          <section class="topic" id="t11"><h3>11. Sync Waves & Hooks</h3><p>Sync waves control ordering of resource application; hooks run custom logic at lifecycle points (pre-sync, post-sync, sync-fail). Both allow complex orchestration for migrations, DB init, or canary steps.</p></section>
+
+          <section class="topic" id="t12"><h3>12. Health Checks</h3><p>ArgoCD assesses resource health via built-in heuristics and custom health checks. Health determines whether sync succeeded and whether rollback or promotion should proceed. Vital for automated rollouts.</p></section>
+
+          <section class="topic" id="t13"><h3>13. Resource Tracking</h3><p>ArgoCD labels and tracks managed resources to know what belongs to an Application. Enables pruning of orphaned resources and accurate diff computation. Key for lifecycle hygiene.</p></section>
+
+          <section class="topic" id="t14"><h3>14. Auto-Sync</h3><p>Automatically applies Git changes to the cluster on detection. Can be gated with health checks, sync options, and sync windows. Useful for continuous delivery with minimal manual steps.</p></section>
+
+          <section class="topic" id="t15"><h3>15. Manual Sync</h3><p>Operator-triggered reconciliation that gives control over when changes are applied. Critical for scheduled, sensitive, or validated rollouts in production environments.</p></section>
+
+          <section class="topic" id="t16"><h3>16. Rollback</h3><p>ArgoCD records application history allowing rollbacks to previous Git commits or previous live states. Rollbacks are git-based and safe if manifests are versioned properly. Essential for fast incident recovery.</p></section>
+
+          <section class="topic" id="t17"><h3>17. Declarative Setup</h3><p>ArgoCD itself can be configured declaratively (Applications for ArgoCD components). Enables GitOps for ArgoCD - self-management and repeatable installations.</p></section>
+
+          <section class="topic" id="t18"><h3>18. Declarative Rollouts (Argo Rollouts)</h3><p>Integrates with Argo Rollouts to perform progressive delivery (canary, blue-green) declaratively. Provides traffic shifting and analysis hooks for safe releases.</p></section>
+
+          <section class="topic" id="t19"><h3>19. Kustomize Support</h3><p>Native rendering support for Kustomize overlays and patches. ArgoCD renders overlays server-side allowing environment-specific customization without forks. A common pattern for multi-env deployments.</p></section>
+
+          <section class="topic" id="t20"><h3>20. Helm Support</h3><p>ArgoCD can fetch and render Helm charts, including values overrides and dependencies. Supports Helm repos, OCI charts, and helm parameters—integral for Helm-based workflows.</p></section>
+
+          <section class="topic" id="t21"><h3>21. Jsonnet & Plugins</h3><p>Supports Jsonnet and custom config management plugins for complex manifest generation. Plugins allow integration with proprietary templating or transformation pipelines.</p></section>
+
+          <section class="topic" id="t22"><h3>22. Application Similarity</h3><p>ArgoCD can compare Applications by diffing manifests to detect drift or duplication. Useful for audits and identifying configuration drift between environments.</p></section>
+
+          <section class="topic" id="t23"><h3>23. Sync Options</h3><p>Fine-grained options control behavior: force apply, prune, apply out-of-sync only, replace, and validate. Choosing proper options prevents accidental deletions and ensures safe applies.</p></section>
+
+          <section class="topic" id="t24"><h3>24. Sync Windows</h3><p>Time-based restrictions for auto-sync operations to limit when automatic deploys occur. Ensures changes only happen during approved maintenance periods.</p></section>
+
+          <section class="topic" id="t25"><h3>25. Resource Overrides</h3><p>Per-resource overrides allow custom health checks, comparison logic, or sync behavior. Important when default heuristics don’t reflect application semantics.</p></section>
+
+          <section class="topic" id="t26"><h3>26. App Status & History</h3><p>Tracks applied revisions, sync status, and health history for each Application. Provides timeline for debugging and audit trails for deployments and rollbacks.</p></section>
+
+          <section class="topic" id="t27"><h3>27. CLI (argocd)</h3><p>Command-line client for creating apps, syncing, and querying status. Crucial for automation scripts and operators who prefer terminals over UI.</p></section>
+
+          <section class="topic" id="t28"><h3>28. UI Dashboard</h3><p>Web interface showing Apps, diffs, history, and health. Useful for cross-team visibility and quick troubleshooting without CLI access.</p></section>
+
+          <section class="topic" id="t29"><h3>29. API Server</h3><p>ArgoCD API server exposes REST/gRPC endpoints for UI, CLI, and automation. Handles auth, RBAC, and application orchestration requests. Scaling and securing it is vital for high-load installations.</p></section>
+
+          <section class="topic" id="t30"><h3>30. Repo Server</h3><p>Component that clones Git repos, renders manifests (Helm/Kustomize), and serves them to the controller. Isolates repo access and improves security and performance.</p></section>
+
+          <!-- Industry 31-80 -->
+          <section class="topic" id="t31"><h3>31. Dex/SSO Integration</h3><p>Dex or OIDC providers enable single sign-on for ArgoCD. Simplifies user management and supports enterprise authentication flows like SAML/OIDC.</p></section>
+
+          <section class="topic" id="t32"><h3>32. RBAC in ArgoCD</h3><p>Role-based access control for ArgoCD resources (apps, projects, settings). Uses RBAC policies to limit who can sync, create, or modify Applications and Projects.</p></section>
+
+          <section class="topic" id="t33"><h3>33. Single Sign-On (SSO)</h3><p>Configures OAuth/OIDC/SAML providers for centralized auth. Enables group mappings and role assignments to streamline enterprise rollout.</p></section>
+
+          <section class="topic" id="t34"><h3>34. TLS & Certs</h3><p>TLS secures UI, API, and repo-server traffic. Cert management can be automated via cert-manager; securing repo access and webhooks is mandatory in production.</p></section>
+
+          <section class="topic" id="t35"><h3>35. Secret Management</h3><p>Integrates with SealedSecrets, HashiCorp Vault, or external providers to avoid storing plaintext secrets in Git. Proper secret handling prevents credential leaks.</p></section>
+
+          <section class="topic" id="t36"><h3>36. K8s Service Accounts</h3><p>Used by ArgoCD to authenticate to target clusters. Proper scoping of service accounts and RBAC avoids over-privileged deployments.</p></section>
+
+          <section class="topic" id="t37"><h3>37. Multi-Cluster Support</h3><p>ArgoCD can manage multiple clusters by storing kubeconfigs and routing deploys. Enables cross-cluster apps, promotions, and centralized GitOps control.</p></section>
+
+          <section class="topic" id="t38"><h3>38. App Path / Directory Strategies</h3><p>Repo layout patterns (per-app, environment overlays, app-of-apps) influence scaling and merge conflicts. Choose patterns that minimize drift and simplify CI workflows.</p></section>
+
+          <section class="topic" id="t39"><h3>39. Monorepo vs Multi-repo</h3><p>Trade-offs: monorepos simplify discoverability but can be large; multi-repo isolates teams but increases cross-repo coordination. ArgoCD supports both with performance considerations.</p></section>
+
+          <section class="topic" id="t40"><h3>40. Webhooks (Git events)</h3><p>Push-based triggers that notify ArgoCD to refresh Apps on repo changes. Preferred over polling for timeliness; requires secure webhook handling and rate-limiting considerations.</p></section>
+
+          <section class="topic" id="t41"><h3>41. Health Assessment Hooks</h3><p>Custom hooks to mark resources healthy after specific checks or scripts. Useful when built-in heuristics are insufficient for application readiness.</p></section>
+
+          <section class="topic" id="t42"><h3>42. Custom Health Checks</h3><p>Define resource-specific logic for health (e.g., DB replication). Avoid false positives/negatives for automated sync decisions.</p></section>
+
+          <section class="topic" id="t43"><h3>43. Notifications (Slack, Email)</h3><p>Notifications controller sends alerts on sync/diff/health events. Integrates with channels for on-call and team visibility; vital for incident response.</p></section>
+
+          <section class="topic" id="t44"><h3>44. Tracing & Observability</h3><p>Instrument ArgoCD components and repo-server for tracing to diagnose slow operations. Observability is critical for production troubleshooting and performance tuning.</p></section>
+
+          <section class="topic" id="t45"><h3>45. Metrics & Prometheus</h3><p>Expose Prometheus metrics for sync rate, failures, and repo-server performance. Drives alerting and capacity planning.</p></section>
+
+          <section class="topic" id="t46"><h3>46. Audit Logs & Compliance</h3><p>ArgoCD audit logs record actions and API calls for compliance and security investigations. Ensure retention and secure log storage for audits.</p></section>
+
+          <section class="topic" id="t47"><h3>47. Performance Tuning</h3><p>Tune repo-server clone depth, parallelism, caching, and resource requests to optimize throughput. Profiling hotspots reveals bottlenecks under load.</p></section>
+
+          <section class="topic" id="t48"><h3>48. Scalability Patterns</h3><p>Shard repos, use app-of-apps, and scale repo-server/controller components to handle many apps. Design for HA and eventual consistency under large fleets.</p></section>
+
+          <section class="topic" id="t49"><h3>49. High Availability</h3><p>Run multiple replicas of API, controller, and repo-server with a reliable backing store. Use leader-election and external DBs where supported for resilience.</p></section>
+
+          <section class="topic" id="t50"><h3>50. Backup & Restore</h3><p>Back up ArgoCD configs, repo-server caches, and application definitions. Test restore procedures regularly to ensure recoverability after disasters.</p></section>
+
+          <section class="topic" id="t51"><h3>51. Git Credentials & SSH</h3><p>Manage SSH keys, known_hosts, and deploy keys securely. Rotation policies and least-privilege keys reduce risk of repository compromise.</p></section>
+
+          <section class="topic" id="t52"><h3>52. OAuth Tokens & PATs</h3><p>Personal Access Tokens or OAuth tokens are alternative repo credentials; scope them narrowly and store encrypted. Monitor usage and rotate periodically.</p></section>
+
+          <section class="topic" id="t53"><h3>53. Cluster Bootstrapping</h3><p>Use ArgoCD to bootstrap clusters by applying core infra (namespaces, CRDs, ingress). Enables consistent cluster initialization through Git-driven manifests.</p></section>
+
+          <section class="topic" id="t54"><h3>54. Automated GitOps Pipelines</h3><p>Combine CI (build/test) with ArgoCD for automated promotion of artifacts into Git and then to clusters. Ensures tested changes reach production with Git as the gate.</p></section>
+
+          <section class="topic" id="t55"><h3>55. Image Automation (argocd-image-updater)</h3><p>Automatically update manifests with new image tags based on policies. Keeps apps up-to-date while preserving human oversight if configured.</p></section>
+
+          <section class="topic" id="t56"><h3>56. Helmfile & Charts Management</h3><p>Manage collections of Helm charts and values via Helmfile or umbrella charts. ArgoCD renders these to maintain consistent Helm releases across environments.</p></section>
+
+          <section class="topic" id="t57"><h3>57. Kustomize Overlays Best Practices</h3><p>Use minimal overlays, avoid duplicating base resources, and prefer patches for environment differences. Keeps repos maintainable and reduces drift risk.</p></section>
+
+          <section class="topic" id="t58"><h3>58. Directory Layouts for Apps</h3><p>Standardize layouts (apps/, envs/, clusters/) to simplify automation and reduce human errors. Clear layouts improve onboarding and CI integration.</p></section>
+
+          <section class="topic" id="t59"><h3>59. Secrets Encryption (SealedSecrets/Vault)</h3><p>Encrypt secrets in Git using controllers like SealedSecrets or integrate runtime decryption with Vault. Prevents plaintext leakage in version control.</p></section>
+
+          <section class="topic" id="t60"><h3>60. Git Hooks vs Polling</h3><p>Webhooks provide near-real-time triggers; polling is simpler but latency-prone. Use webhooks with a resilient delivery strategy for production setups.</p></section>
+
+          <section class="topic" id="t61"><h3>61. ArgoCD Notifications Controller</h3><p>Configurable notifications for app events, leveraging templates and receivers to alert teams. Integrates with Slack, MS Teams, Email, and custom webhooks.</p></section>
+
+          <section class="topic" id="t62"><h3>62. Policy Enforcement</h3><p>Enforce git-based policies using OPA/Gatekeeper or Kyverno to prevent unsafe manifests from being applied. Adds compliance checks into GitOps flow.</p></section>
+
+          <section class="topic" id="t63"><h3>63. Project Quotas & Limits</h3><p>Limit number of apps, destinations, and repo access per project to prevent resource sprawl and enforce organizational boundaries.</p></section>
+
+          <section class="topic" id="t64"><h3>64. Automated Drift Detection</h3><p>Regularly compare live state with Git to surface unexpected changes. Drift alerts are crucial for detecting manual or rogue changes in clusters.</p></section>
+
+          <section class="topic" id="t65"><h3>65. Drift Remediation Strategies</h3><p>Decide whether to auto-correct drift, alert only, or protect resources. Strategies depend on service criticality and operational model.</p></section>
+
+          <section class="topic" id="t66"><h3>66. Secrets Sync Considerations</h3><p>Syncing encrypted secrets requires controllers and runtime access; avoid exposing sensitive data via UI or logs. Consider using external secret stores for runtime access.</p></section>
+
+          <section class="topic" id="t67"><h3>67. Cross-Namespace Deployments</h3><p>Handle RBAC and resource scoping when deploying into namespaces different from ArgoCD's. Ensure service accounts and roles are correctly provisioned.</p></section>
+
+          <section class="topic" id="t68"><h3>68. App Sync Strategies for Stateful Apps</h3><p>Stateful apps need ordered sync, PDBs, and careful pruning. Use hooks and controlled rollouts to avoid data loss during updates.</p></section>
+
+          <section class="topic" id="t69"><h3>69. Resource Pruning</h3><p>Pruning removes resources not present in Git to avoid drift; use with caution—misconfigured pruning can delete critical resources.</p></section>
+
+          <section class="topic" id="t70"><h3>70. Garbage Collection</h3><p>ArgoCD can garbage-collect orphan resources; configure retain policies for backups and protect critical objects from accidental deletion.</p></section>
+
+          <section class="topic" id="t71"><h3>71. Web UI Customization</h3><p>Customize branding, embed dashboards, or limit UI features via RBAC for end-user clarity and security. Useful in enterprise deployments.</p></section>
+
+          <section class="topic" id="t72"><h3>72. Secrets Scanning</h3><p>Integrate secret scanning in CI to prevent committing secrets to repos; complements ArgoCD by ensuring Git hygiene upstream.</p></section>
+
+          <section class="topic" id="t73"><h3>73. Canary & Blue-Green via Rollouts</h3><p>Use Argo Rollouts with ArgoCD to orchestrate progressive delivery strategies with analysis and automated promotion/rollback.</p></section>
+
+          <section class="topic" id="t74"><h3>74. Argo Rollouts Integration</h3><p>Tight integration provides CRDs for TrafficRouting, AnalysisTemplates, and Experimentation—native support for progressive deployment patterns.</p></section>
+
+          <section class="topic" id="t75"><h3>75. Notifications & Event Hooks</h3><p>Event-driven hooks and notifications let teams react to sync, failure, or health events—drive automation and incident workflows from ArgoCD.</p></section>
+
+          <section class="topic" id="t76"><h3>76. Event-driven GitOps Patterns</h3><p>Combine events (webhooks, message queues) with ArgoCD to trigger reactive deployments and reduce manual triggers.</p></section>
+
+          <section class="topic" id="t77"><h3>77. Multi-tenancy with Projects</h3><p>Use Projects to isolate teams, enforce allowed repos/destinations, and apply RBAC—core to running ArgoCD for many teams securely.</p></section>
+
+          <section class="topic" id="t78"><h3>78. GitOps Security Best Practices</h3><p>Least-privilege credentials, encrypted secrets, signed commits, protected branches, and policy gates are must-haves for secure GitOps.</p></section>
+
+          <section class="topic" id="t79"><h3>79. SSO Role Mappings</h3><p>Map external SSO groups to ArgoCD roles for consistent access control. Ensures centralized identity and simpler user provisioning.</p></section>
+
+          <section class="topic" id="t80"><h3>80. Repo Health & Sync Frequency</h3><p>Monitor repo latency, failures, and choose sync frequency to balance freshness with load. Use caching and shallow clones for large repos.</p></section>
+
+          <!-- Expert 81-100 -->
+          <section class="topic" id="t81"><h3>81. ArgoCD API Server Internals</h3><p>Understanding request handling, auth, and rate limits helps design secure, scalable APIs. Profiling hotspots in the API server is key for large deployments.</p></section>
+
+          <section class="topic" id="t82"><h3>82. Repo-Server Internals</h3><p>How repo-server clones, renders, and caches manifests; tuning cache TTL and clone strategies reduces IO and latency under scale.</p></section>
+
+          <section class="topic" id="t83"><h3>83. Controller Loop Mechanics</h3><p>Controller watches Application CRs, enqueues reconcile requests, and applies changes; understanding backoff, retries, and rate limiting prevents thundering herds.</p></section>
+
+          <section class="topic" id="t84"><h3>84. Multi-Cluster Strategies</h3><p>Patterns: central ArgoCD with many kubeconfigs, per-cluster ArgoCD instances, or hybrid. Trade-offs include blast radius, latency, and operational overhead.</p></section>
+
+          <section class="topic" id="t85"><h3>85. Scaling ArgoCD Components</h3><p>Horizontal scaling of controller, API, and repo-server, plus sharding repos and tuning DB/caching layers to handle thousands of apps and high webhook rates.</p></section>
+
+          <section class="topic" id="t86"><h3>86. Consistency & Conflict Handling</h3><p>Handle concurrent changes from Git and manual edits using optimistic reconcilers, clear ownership labels, and policy gates to prevent race conditions.</p></section>
+
+          <section class="topic" id="t87"><h3>87. Drift Edge Cases</h3><p>Handle cases like controller conflicts, operator-made changes, immutable fields, and side-effectful resources. Build remediations that are safe and auditable.</p></section>
+
+          <section class="topic" id="t88"><h3>88. Performance Benchmarking</h3><p>Benchmark sync time, repo clone time, and API throughput. Use load tests to design autoscaling rules and capacity plans.</p></section>
+
+          <section class="topic" id="t89"><h3>89. Large Repo Management</h3><p>Shallow clones, sparse-checkout, and repo partitioning reduce clone times; use repo-server caching and artifacts for heavy repos.</p></section>
+
+          <section class="topic" id="t90"><h3>90. Repo Sharding</h3><p>Split large monorepos into logical shards or use app-of-apps to reduce sync scope and improve parallelism for large fleets.</p></section>
+
+          <section class="topic" id="t91"><h3>91. Security Incident Response</h3><p>Playbooks for repo compromise, leaked secrets, or misconfigs: rotate creds, revoke access, roll back manifests, and audit effected clusters.</p></section>
+
+          <section class="topic" id="t92"><h3>92. High-throughput Webhooks</h3><p>Design webhook receivers for burst handling, idempotency, and backpressure; consider queueing and rate-limiting to protect ArgoCD components.</p></section>
+
+          <section class="topic" id="t93"><h3>93. Offline Repo Syncing</h3><p>Support air-gapped environments by mirroring repos into internal servers, using artifact stores, or pre-rendered manifests to avoid external Git access.</p></section>
+
+          <section class="topic" id="t94"><h3>94. Custom Resource Caching</h3><p>Cache rendered CRs to reduce re-render overhead and improve controller responsiveness for high-count applications.</p></section>
+
+          <section class="topic" id="t95"><h3>95. Advanced Health Assessment</h3><p>Combine readiness probes, external checks, and domain-specific logic to avoid false positives; integrate analysis templates for automated promotion decisions.</p></section>
+
+          <section class="topic" id="t96"><h3>96. Event Delivery Guarantees</h3><p>Design for at-least-once delivery with idempotent handlers; ensure deduplication and safe retries in notifications and webhook pipelines.</p></section>
+
+          <section class="topic" id="t97"><h3>97. Observability at Scale</h3><p>Centralize metrics, logs, and traces from ArgoCD components; use sampling, aggregation, and retention policies to make observability cost-effective.</p></section>
+
+          <section class="topic" id="t98"><h3>98. Disaster Recovery for ArgoCD</h3><p>Recover ArgoCD control plane and repo-server caches: backup CRs, secrets, and config; have tested restores and failover processes for critical operations.</p></section>
+
+          <section class="topic" id="t99"><h3>99. Enterprise Features & Licensing</h3><p>ArgoCD Enterprise (e.g., commercial distributions) adds SSO integrations, advanced RBAC, team management, and support—know the value proposition for orgs.</p></section>
+
+          <section class="topic" id="t100"><h3>100. Production Troubleshooting Workflow</h3><p>Systematic steps: check app and project status, review diffs, inspect repo-server logs, verify kubeconfigs, follow audit logs, and perform safe rollbacks. Practice this flow until it’s muscle memory.</p></section>
+
+        </section>
+      </div>
+    </main>
+  </div>
+
+<script>
+function filterTopics(){
+const q = document.getElementById('search').value.toLowerCase();
+const topics = document.querySelectorAll('.topic');
+let visible = 0;
+topics.forEach(t => {
+const text = t.innerText.toLowerCase();
+if(!q || text.includes(q)){
+t.style.display = '';
+visible++;
+} else {
+t.style.display = 'none';
+}
+});
+document.getElementById('count').innerText = visible + ' topics';
+}
+</script>
+</body>
+</html>
