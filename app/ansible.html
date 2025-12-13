@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ansible — 50-topic Interview-ready Cheat Sheet</title>
+  <style>
+    a{text-decoration:none;color:white;}
+    :root{
+      --bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;
+      --accent:#38bdf8;--white:#e6eef6
+    }
+    body{
+      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,#081022 0%,#071022 100%);
+      color:var(--white);margin:0;padding:32px
+    }
+    header{margin-bottom:24px}
+    h1{font-size:22px;margin:0}
+    p.lead{color:var(--muted);margin:0}
+    .container{display:grid;grid-template-columns:300px 1fr;gap:20px}
+    nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto}
+    nav h2{font-size:16px;margin:0 0 8px 0}
+    nav ol{padding-left:18px;color:var(--muted);margin:0}
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),
+      rgba(255,255,255,0.01));
+      padding:20px;border-radius:12px;
+      box-shadow:0 6px 18px rgba(2,6,23,0.6)
+    }
+    section.topic{
+      margin-bottom:14px;padding-bottom:12px;
+      border-bottom:1px solid rgba(255,255,255,0.03)
+    }
+    section.topic h3{
+      margin:0 0 6px 0;font-size:16px;color:var(--accent)
+    }
+    section.topic p{margin:0;color:var(--muted);line-height:1.4}
+    ul{margin:6px 0 0 18px;padding:0;color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .btn{
+      background:#0b2233;padding:8px 12px;border-radius:8px;
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--white);font-size:13px
+    }
+    .search{flex:1}
+    .count{color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Ansible — 50-topic Interview-ready Cheat Sheet</h1>
+  <p class="lead">Clear, concise, production-focused definitions with bullets for strong interview impact.</p>
+</header>
+
+<div class="container">
+<nav class="card" id="toc">
+  <h2>Contents (50 topics)</h2>
+  <ol>
+    <li><a href="#t1">What is Ansible</a></li>
+    <li><a href="#t2">Architecture</a></li>
+    <li><a href="#t3">Inventory</a></li>
+    <li><a href="#t4">Static vs Dynamic Inventory</a></li>
+    <li><a href="#t5">YAML Essentials</a></li>
+    <li><a href="#t6">Playbooks</a></li>
+    <li><a href="#t7">Tasks</a></li>
+    <li><a href="#t8">Modules</a></li>
+    <li><a href="#t9">Collections</a></li>
+    <li><a href="#t10">Roles</a></li>
+    <li><a href="#t11">Variables</a></li>
+    <li><a href="#t12">Variable Precedence</a></li>
+    <li><a href="#t13">Templates (Jinja2)</a></li>
+    <li><a href="#t14">Handlers</a></li>
+    <li><a href="#t15">Conditionals</a></li>
+    <li><a href="#t16">Loops</a></li>
+    <li><a href="#t17">Tags</a></li>
+    <li><a href="#t18">Fact Gathering</a></li>
+    <li><a href="#t19">Filters</a></li>
+    <li><a href="#t20">Lookup Plugins</a></li>
+    <li><a href="#t21">Ansible Vault</a></li>
+    <li><a href="#t22">SSH & Connections</a></li>
+    <li><a href="#t23">Privilege Escalation</a></li>
+    <li><a href="#t24">Error Handling</a></li>
+    <li><a href="#t25">Check Mode</a></li>
+    <li><a href="#t26">Idempotency</a></li>
+    <li><a href="#t27">Includes & Imports</a></li>
+    <li><a href="#t28">ansible.cfg Optimization</a></li>
+    <li><a href="#t29">Strategy Plugins</a></li>
+    <li><a href="#t30">Serial & Rolling Updates</a></li>
+    <li><a href="#t31">Dynamic Inventory (AWS)</a></li>
+    <li><a href="#t32">OS Patching Automation</a></li>
+    <li><a href="#t33">Kubernetes Automation</a></li>
+    <li><a href="#t34">Cloud Provisioning</a></li>
+    <li><a href="#t35">Network Automation</a></li>
+    <li><a href="#t36">Security Hardening</a></li>
+    <li><a href="#t37">Compliance Automation</a></li>
+    <li><a href="#t38">Molecule Testing</a></li>
+    <li><a href="#t39">Linting & CI Validation</a></li>
+    <li><a href="#t40">GitOps with Ansible</a></li>
+    <li><a href="#t41">Ansible AWX Basics</a></li>
+    <li><a href="#t42">Job Templates</a></li>
+    <li><a href="#t43">RBAC in AWX</a></li>
+    <li><a href="#t44">Webhooks (CI/CD)</a></li>
+    <li><a href="#t45">Performance Tuning</a></li>
+    <li><a href="#t46">Inventory Caching</a></li>
+    <li><a href="#t47">Rolling Deployments</a></li>
+    <li><a href="#t48">Blue-Green Automation</a></li>
+    <li><a href="#t49">Orchestration Patterns</a></li>
+    <li><a href="#t50">Production Troubleshooting</a></li>
+  </ol>
+</nav>
+
+<main>
+<div class="card">
+<div class="controls">
+  <input id="search" class="search btn" placeholder="Search topic or keyword" oninput="filterTopics()" />
+  <div class="count" id="count">50 topics</div>
+</div>
+
+<section id="topics">
+
+<!-- ---------------------- TOPIC 1 ---------------------- -->
+<section class="topic" id="t1">
+  <h3>1. What is Ansible</h3>
+  <p>Agentless automation tool using SSH and YAML for configuration, provisioning, and orchestration.</p>
+  <ul>
+    <li>Push-based automation for quick change delivery.</li>
+    <li>No agents reduce operational overhead.</li>
+    <li>Standardizes deployments and avoids drift.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 2 ---------------------- -->
+<section class="topic" id="t2">
+  <h3>2. Architecture</h3>
+  <p>Control node runs playbooks on managed nodes through SSH using modules, plugins, and inventory.</p>
+  <ul>
+    <li>Managed nodes need only SSH + Python.</li>
+    <li>Plugins extend logging, caching, lookups.</li>
+    <li>Simple architecture scales easily across fleets.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 3 ---------------------- -->
+<section class="topic" id="t3">
+  <h3>3. Inventory</h3>
+  <p>Defines host groups, variables, and target systems for automation workflows.</p>
+  <ul>
+    <li>Supports INI, YAML, JSON formats.</li>
+    <li>Separates dev/stage/prod logically.</li>
+    <li>Stores host/group-specific variables.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 4 ---------------------- -->
+<section class="topic" id="t4">
+  <h3>4. Static vs Dynamic Inventory</h3>
+  <p>Static = manually defined files; dynamic = cloud APIs for auto-discovery.</p>
+  <ul>
+    <li>Static suitable for small infra.</li>
+    <li>Dynamic required for AWS/GCP autoscaling.</li>
+    <li>Supports filters and tag-based grouping.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 5 ---------------------- -->
+<section class="topic" id="t5">
+  <h3>5. YAML Essentials</h3>
+  <p>Ansible playbooks use YAML for clean, structured, indentation-sensitive configuration.</p>
+  <ul>
+    <li>Uses lists + key-value mappings.</li>
+    <li>No tabs allowed—spaces only.</li>
+    <li>Declarative and human-friendly syntax.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 6 ---------------------- -->
+<section class="topic" id="t6">
+  <h3>6. Playbooks</h3>
+  <p>Define desired state and orchestrate tasks across hosts in predictable order.</p>
+  <ul>
+    <li>Support variables, handlers, templates.</li>
+    <li>Readable and reusable structure.</li>
+    <li>Core execution unit in automation.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 7 ---------------------- -->
+<section class="topic" id="t7">
+  <h3>7. Tasks</h3>
+  <p>Each task calls a module to enforce a specific state (package installed, file copied, etc.).</p>
+  <ul>
+    <li>Executed sequentially within plays.</li>
+    <li>Use conditionals, loops, tags.</li>
+    <li>Idempotency ensures safe repetition.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 8 ---------------------- -->
+<section class="topic" id="t8">
+  <h3>8. Modules</h3>
+  <p>Reusable units like package, file, user, service. Thousands available including cloud and network.</p>
+  <ul>
+    <li>Return structured JSON results.</li>
+    <li>Support idempotent behavior.</li>
+    <li>Custom modules extend functionality.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 9 ---------------------- -->
+<section class="topic" id="t9">
+  <h3>9. Collections</h3>
+  <p>Bundles of modules, roles, plugins packaged for reuse and versioning.</p>
+  <ul>
+    <li>Installed via Ansible Galaxy.</li>
+    <li>Support version pinning.</li>
+    <li>Used for internal automation standards.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 10 ---------------------- -->
+<section class="topic" id="t10">
+  <h3>10. Roles</h3>
+  <p>Structured reusable automation containing tasks, vars, handlers, templates, defaults.</p>
+  <ul>
+    <li>Enforces separation of concerns.</li>
+    <li>Shareable through Galaxy or git repos.</li>
+    <li>Ideal for repeated configuration patterns.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 11 ---------------------- -->
+<section class="topic" id="t11">
+  <h3>11. Variables</h3>
+  <p>Inject dynamic values into playbooks, templates, and modules.</p>
+  <ul>
+    <li>Support lists, dicts, strings, booleans.</li>
+    <li>Defined at host, group, role, or play level.</li>
+    <li>Improve reuse across environments.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 12 ---------------------- -->
+<section class="topic" id="t12">
+  <h3>12. Variable Precedence</h3>
+  <p>Defines which variable wins when defined in multiple places.</p>
+  <ul>
+    <li>CLI vars override everything.</li>
+    <li>Role defaults have lowest priority.</li>
+    <li>Crucial for debugging unexpected behavior.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 13 ---------------------- -->
+<section class="topic" id="t13">
+  <h3>13. Templates (Jinja2)</h3>
+  <p>Generate dynamic config files using Jinja2 templating features.</p>
+  <ul>
+    <li>Supports loops, filters, and conditionals.</li>
+    <li>Used for service configuration files.</li>
+    <li>Integrates with variables and facts.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 14 ---------------------- -->
+<section class="topic" id="t14">
+  <h3>14. Handlers</h3>
+  <p>Tasks that run only when notified, usually to restart or reload services.</p>
+  <ul>
+    <li>Prevents unnecessary restarts.</li>
+    <li>Executed at end of play by default.</li>
+    <li>Ensures controlled state changes.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 15 ---------------------- -->
+<section class="topic" id="t15">
+  <h3>15. Conditionals</h3>
+  <p>Control task execution based on facts, variables, or outputs.</p>
+  <ul>
+    <li>Use when, failed_when, changed_when.</li>
+    <li>Supports multi-OS automation logic.</li>
+    <li>Avoids unnecessary task execution.</li>
+  </ul>
+</section>
+<!-- ---------------------- TOPIC 16 ---------------------- -->
+<section class="topic" id="t16">
+  <h3>16. Loops</h3>
+  <p>Repeat tasks over lists, dictionaries, or sequences to avoid duplication.</p>
+  <ul>
+    <li>Supports loop, with_items, with_dict, etc.</li>
+    <li>Simplifies repetitive configuration tasks.</li>
+    <li>Useful in file creation, user mgmt, and service rules.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 17 ---------------------- -->
+<section class="topic" id="t17">
+  <h3>17. Tags</h3>
+  <p>Selective execution mechanism for running only specific tasks or sections.</p>
+  <ul>
+    <li>Useful for debugging or partial deployments.</li>
+    <li>Supports include, skip, and filtering.</li>
+    <li>Essential in CI pipelines for fast feedback loops.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 18 ---------------------- -->
+<section class="topic" id="t18">
+  <h3>18. Fact Gathering</h3>
+  <p>Collects system information (OS, CPU, memory, networking) before execution.</p>
+  <ul>
+    <li>Stored under ansible_facts.* variables.</li>
+    <li>Can be disabled to improve speed.</li>
+    <li>Supports custom facts for organization-specific data.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 19 ---------------------- -->
+<section class="topic" id="t19">
+  <h3>19. Filters</h3>
+  <p>Transform or format variables inside templates and tasks using Jinja2 filters.</p>
+  <ul>
+    <li>Common filters: default, replace, regex, join.</li>
+    <li>Enable clean template logic.</li>
+    <li>Extensible through custom filter plugins.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 20 ---------------------- -->
+<section class="topic" id="t20">
+  <h3>20. Lookup Plugins</h3>
+  <p>Pull external data dynamically from files, environment, credentials, or APIs.</p>
+  <ul>
+    <li>Executes on control node, not targets.</li>
+    <li>Useful for secrets, file reads, environment values.</li>
+    <li>Supports plugins like file, env, password.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 21 ---------------------- -->
+<section class="topic" id="t21">
+  <h3>21. Ansible Vault</h3>
+  <p>Encrypt files or variables to protect secrets in playbooks and repos.</p>
+  <ul>
+    <li>Supports multiple vault IDs for different environments.</li>
+    <li>Integrates with CI/CD securely.</li>
+    <li>Enables safe storage of credentials and keys.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 22 ---------------------- -->
+<section class="topic" id="t22">
+  <h3>22. SSH & Connections</h3>
+  <p>The default connection method for communicating with managed nodes.</p>
+  <ul>
+    <li>Supports SSH multiplexing and ControlPersist.</li>
+    <li>Works with bastion/jump hosts.</li>
+    <li>Alternatives: local, paramiko, network_cli.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 23 ---------------------- -->
+<section class="topic" id="t23">
+  <h3>23. Privilege Escalation</h3>
+  <p>Use “become” to execute tasks as a different user (typically root).</p>
+  <ul>
+    <li>Supports sudo, su, pbrun, doas.</li>
+    <li>Configurable at task, play, or global level.</li>
+    <li>Critical for package installs and OS changes.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 24 ---------------------- -->
+<section class="topic" id="t24">
+  <h3>24. Error Handling</h3>
+  <p>Manage and control failures in Ansible runs for safer automation.</p>
+  <ul>
+    <li>block/rescue/always enable try-catch-like behavior.</li>
+    <li>ignore_errors for non-critical tasks.</li>
+    <li>failed_when allows custom fail logic.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 25 ---------------------- -->
+<section class="topic" id="t25">
+  <h3>25. Check Mode</h3>
+  <p>Dry-run mode that shows what changes would occur without applying them.</p>
+  <ul>
+    <li>Useful for drift detection.</li>
+    <li>Not all modules fully support check mode.</li>
+    <li>Safe validation step before production runs.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 26 ---------------------- -->
+<section class="topic" id="t26">
+  <h3>26. Idempotency</h3>
+  <p>Ensures repeated runs do not change system state unnecessarily.</p>
+  <ul>
+    <li>Prevents drift across environments.</li>
+    <li>Makes automation predictable and stable.</li>
+    <li>Most core modules enforce idempotency.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 27 ---------------------- -->
+<section class="topic" id="t27">
+  <h3>27. Includes & Imports</h3>
+  <p>Split automation into modular parts; include = dynamic, import = static.</p>
+  <ul>
+    <li>Improves readability and reuse.</li>
+    <li>Supports conditional includes.</li>
+    <li>Works with tasks, plays, and roles.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 28 ---------------------- -->
+<section class="topic" id="t28">
+  <h3>28. ansible.cfg Optimization</h3>
+  <p>Control Ansible's global behavior and performance tuning.</p>
+  <ul>
+    <li>Enable pipelining and SSH multiplexing.</li>
+    <li>Increase forks for parallel execution.</li>
+    <li>Configure inventory paths and timeouts.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 29 ---------------------- -->
+<section class="topic" id="t29">
+  <h3>29. Strategy Plugins</h3>
+  <p>Define how tasks are executed across multiple hosts.</p>
+  <ul>
+    <li>linear: default sequential execution.</li>
+    <li>free: hosts run independently.</li>
+    <li>debug: step-by-step debugging mode.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 30 ---------------------- -->
+<section class="topic" id="t30">
+  <h3>30. Serial & Rolling Updates</h3>
+  <p>Apply updates in controlled batches to avoid downtime.</p>
+  <ul>
+    <li>serial controls batch size.</li>
+    <li>max_fail_percentage manages risk tolerance.</li>
+    <li>Essential for production patching strategies.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 31 ---------------------- -->
+<section class="topic" id="t31">
+  <h3>31. Dynamic Inventory (AWS)</h3>
+  <p>Automatically discovers hosts from EC2 using tags and filters.</p>
+  <ul>
+    <li>Eliminates manual host updates.</li>
+    <li>Supports autoscaling environments.</li>
+    <li>Integrates with AWS APIs for live inventory.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 32 ---------------------- -->
+<section class="topic" id="t32">
+  <h3>32. OS Patching Automation</h3>
+  <p>Automates package updates and reboots across server fleets.</p>
+  <ul>
+    <li>Use serial batches for safe rollouts.</li>
+    <li>Combine with “wait_for” for reboot handling.</li>
+    <li>Integrates with maintenance windows.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 33 ---------------------- -->
+<section class="topic" id="t33">
+  <h3>33. Kubernetes Automation</h3>
+  <p>Manage k8s objects, Helm charts, and CRDs directly from Ansible.</p>
+  <ul>
+    <li>Useful for cluster bootstrapping.</li>
+    <li>Automates add-ons and deployments.</li>
+    <li>Works well with GitOps workflows.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 34 ---------------------- -->
+<section class="topic" id="t34">
+  <h3>34. Cloud Provisioning</h3>
+  <p>Provision small-scale AWS/Azure/GCP resources using modules.</p>
+  <ul>
+    <li>Terraform preferred for large infra.</li>
+    <li>Ansible ideal for post-provisioning configuration.</li>
+    <li>Great for hybrid workflows.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 35 ---------------------- -->
+<section class="topic" id="t35">
+  <h3>35. Network Automation</h3>
+  <p>Automates routers, switches, load balancers, and firewalls.</p>
+  <ul>
+    <li>Supports Cisco, Juniper, Arista, F5.</li>
+    <li>Reduces manual CLI errors.</li>
+    <li>Works with network_cli & netconf connections.</li>
+  </ul>
+</section>
+<!-- ---------------------- TOPIC 36 ---------------------- -->
+<section class="topic" id="t36">
+  <h3>36. Security Hardening</h3>
+  <p>Automate OS-level hardening and compliance requirements using CIS or custom benchmarks.</p>
+  <ul>
+    <li>Manage file permissions, firewall rules, SSH configs.</li>
+    <li>Eliminate manual configuration drift.</li>
+    <li>Ideal for baseline enforcement across fleets.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 37 ---------------------- -->
+<section class="topic" id="t37">
+  <h3>37. Compliance Automation</h3>
+  <p>Validate and enforce organization-wide compliance policies automatically.</p>
+  <ul>
+    <li>Implements remediation and reporting steps.</li>
+    <li>Supports audits and security governance.</li>
+    <li>Repeatable and version-controlled enforcement.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 38 ---------------------- -->
+<section class="topic" id="t38">
+  <h3>38. Molecule Testing</h3>
+  <p>Framework for testing Ansible roles using containers or VMs before production use.</p>
+  <ul>
+    <li>Ensures roles behave as expected.</li>
+    <li>Supports multiple drivers (Docker, Vagrant).</li>
+    <li>Critical for CI-based validation pipelines.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 39 ---------------------- -->
+<section class="topic" id="t39">
+  <h3>39. Linting & CI Validation</h3>
+  <p>Static analysis and best-practice checks for playbooks and roles.</p>
+  <ul>
+    <li>Use ansible-lint for consistent style.</li>
+    <li>Integrate into GitHub Actions/Jenkins.</li>
+    <li>Prevents poor-quality automation from merging.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 40 ---------------------- -->
+<section class="topic" id="t40">
+  <h3>40. GitOps with Ansible</h3>
+  <p>Trigger automation based on Git events and version-controlled state.</p>
+  <ul>
+    <li>AWX webhooks for CI/CD workflows.</li>
+    <li>Enables infra-as-pull-request workflows.</li>
+    <li>Keeps automation aligned with repo history.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 41 ---------------------- -->
+<section class="topic" id="t41">
+  <h3>41. Ansible AWX Basics</h3>
+  <p>Web UI + API platform for scheduling, RBAC, credentials, and workflow management.</p>
+  <ul>
+    <li>Central visibility of automation runs.</li>
+    <li>Secure storage of credentials.</li>
+    <li>Role-based execution controls.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 42 ---------------------- -->
+<section class="topic" id="t42">
+  <h3>42. Job Templates</h3>
+  <p>Reusable execution definitions combining playbooks, credentials, and inventory.</p>
+  <ul>
+    <li>Allow parameterized or scheduled runs.</li>
+    <li>Standardize deployments and patch cycles.</li>
+    <li>Support survey prompts for user inputs.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 43 ---------------------- -->
+<section class="topic" id="t43">
+  <h3>43. RBAC in AWX</h3>
+  <p>Fine-grained access control to manage who can run, edit, or view automation.</p>
+  <ul>
+    <li>Separate operator vs admin permissions.</li>
+    <li>Supports organization, team, and project roles.</li>
+    <li>Mandatory for production governance.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 44 ---------------------- -->
+<section class="topic" id="t44">
+  <h3>44. Webhooks (CI/CD)</h3>
+  <p>Automatically trigger playbook runs from GitHub/GitLab push or merge events.</p>
+  <ul>
+    <li>Enforces GitOps workflows.</li>
+    <li>Keeps infra in sync with code.</li>
+    <li>Reduces manual execution overhead.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 45 ---------------------- -->
+<section class="topic" id="t45">
+  <h3>45. Performance Tuning</h3>
+  <p>Optimize Ansible for speed and scalability during large fleet automation.</p>
+  <ul>
+    <li>Enable pipelining for fewer SSH ops.</li>
+    <li>Raise forks for parallel execution.</li>
+    <li>Disable unnecessary fact-gathering.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 46 ---------------------- -->
+<section class="topic" id="t46">
+  <h3>46. Inventory Caching</h3>
+  <p>Store dynamic inventory results temporarily to avoid repeated API calls.</p>
+  <ul>
+    <li>Boosts speed with AWS/GCP large-scale fleets.</li>
+    <li>Configurable via cache plugins.</li>
+    <li>Reduces load on cloud APIs.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 47 ---------------------- -->
+<section class="topic" id="t47">
+  <h3>47. Rolling Deployments</h3>
+  <p>Deploy applications with controlled host-by-host rollout to avoid downtime.</p>
+  <ul>
+    <li>Combine with serial batches.</li>
+    <li>Use health checks and wait conditions.</li>
+    <li>Ensures smooth production releases.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 48 ---------------------- -->
+<section class="topic" id="t48">
+  <h3>48. Blue-Green Automation</h3>
+  <p>Parallel environments allow instant cutover between old and new deployments.</p>
+  <ul>
+    <li>Zero-downtime release strategy.</li>
+    <li>Rollback-ready architecture.</li>
+    <li>Useful for apps and infra changes.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 49 ---------------------- -->
+<section class="topic" id="t49">
+  <h3>49. Orchestration Patterns</h3>
+  <p>Coordinate multi-step workflows across apps, services, and nodes.</p>
+  <ul>
+    <li>Use blocks, dependencies, and inventories.</li>
+    <li>Enables infra → config → app pipelines.</li>
+    <li>Foundation for full-stack automation.</li>
+  </ul>
+</section>
+
+<!-- ---------------------- TOPIC 50 ---------------------- -->
+<section class="topic" id="t50">
+  <h3>50. Production Troubleshooting</h3>
+  <p>Debug complex playbook failures under real production conditions.</p>
+  <ul>
+    <li>Use -vvv logs for full visibility.</li>
+    <li>Validate variables, paths, and SSH.</li>
+    <li>Check module return JSON for clues.</li>
+  </ul>
+</section>
+
+</section> <!-- end of topics -->
+</div> <!-- end card -->
+</main>
+</div> <!-- end container -->
+
+<script>
+function filterTopics(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const topics=document.querySelectorAll('.topic');
+  let visible=0;
+  topics.forEach(t=>{
+    const text=t.innerText.toLowerCase();
+    if(!q || text.includes(q)){
+      t.style.display='';
+      visible++;
+    } else {
+      t.style.display='none';
+    }
+  });
+  document.getElementById('count').innerText=visible+" topics";
+}
+</script>
+
+</body>
+</html>
