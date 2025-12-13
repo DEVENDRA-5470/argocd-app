@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Breathing Navbar</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Gradient Breathing Animation -->
+  <style>
+    @keyframes gradient-breath {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      25% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .animate-gradient-breath {
+      background-size: 300% 300%;
+      animation: gradient-breath 12s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 backdrop-blur bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg animate-gradient-breath">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between h-16 items-center">
+
+        <!-- Logo -->
+        <div class="flex items-center">
+          <span class="text-xl font-bold text-white tracking-wide">
+            DevBrand
+          </span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-8">
+          <a href="./k8s.html" class="text-white/90 hover:text-white transition font-medium">
+            Kubernetes
+          </a>
+          <a href="#" class="text-white/90 hover:text-white transition font-medium">
+            Features
+          </a>
+          <a href="#" class="text-white/90 hover:text-white transition font-medium">
+            Pricing
+          </a>
+          <a href="#" class="text-white/90 hover:text-white transition font-medium">
+            Contact
+          </a>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="hidden md:block">
+          <button class="bg-white text-indigo-600 px-4 py-2 rounded-md font-semibold hover:bg-gray-100 transition">
+            Get Started
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-gradient-to-b from-indigo-600 to-purple-700">
+      <div class="px-4 py-4 space-y-3">
+        <a href="#" class="block text-white/90 hover:text-white">
+          Home
+        </a>
+        <a href="#" class="block text-white/90 hover:text-white">
+          Features
+        </a>
+        <a href="#" class="block text-white/90 hover:text-white">
+          Pricing
+        </a>
+        <a href="#" class="block text-white/90 hover:text-white">
+          Contact
+        </a>
+        <button class="w-full bg-white text-indigo-600 py-2 rounded-md font-semibold hover:bg-gray-100">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Toggle Script -->
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>
