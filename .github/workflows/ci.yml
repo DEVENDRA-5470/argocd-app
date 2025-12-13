@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout source code
+    - name: Checkout app repo
       uses: actions/checkout@v4
+
+    - name: Set image tag (immutable)
+      run: echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -21,16 +24,19 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t deviliam/argocd-test:latest .
-        docker push deviliam/argocd-test:latest
+        docker build -t deviliam/argocd-test:${IMAGE_TAG} .
+        docker push deviliam/argocd-test:${IMAGE_TAG}
 
-    - name: Update GitOps repository
+    - name: Update GitOps repo
       run: |
         git clone https://x-access-token:${{ secrets.GITOPS_TOKEN }}@github.com/DEVENDRA-5470/argocd-gitops.git
         cd argocd-gitops/apps/argocd-test
 
+        sed -i "s|image: deviliam/argocd-test:.*|image: deviliam/argocd-test:${IMAGE_TAG}|" deployment.yaml
+
         git config user.email "ci@github-actions"
         git config user.name "github-actions"
 
-        git commit --allow-empty -am "Deploy latest image"
+        git add deployment.yaml
+        git commit -m "Deploy image ${IMAGE_TAG}"
         git push
