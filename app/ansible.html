@@ -3,53 +3,49 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ansible — 50-topic Interview-ready Cheat Sheet</title>
+   <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>ArgoCD — 100-topic Interview-ready Cheat Sheet</title>
   <style>
-    a{text-decoration:none;color:white;}
-    :root{
-      --bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;
-      --accent:#38bdf8;--white:#e6eef6
+    a{
+        text-decoration: none;
+        /* color: white; */
     }
-    body{
-      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
-      background:linear-gradient(180deg,#081022 0%,#071022 100%);
-      color:var(--white);margin:0;padding:32px
-    }
-    header{margin-bottom:24px}
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#38bdf8;--white:#e6eef6}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#081022 0%, #071022 100%);color:var(--white);margin:0;}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
     h1{font-size:22px;margin:0}
     p.lead{color:var(--muted);margin:0}
     .container{display:grid;grid-template-columns:300px 1fr;gap:20px}
-    nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto}
-    nav h2{font-size:16px;margin:0 0 8px 0}
+    /* nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto} */
+    nav h2{font-size:14px;margin:0 0 8px 0}
     nav ol{padding-left:18px;color:var(--muted);margin:0}
-    .card{
-      background:linear-gradient(180deg,rgba(255,255,255,0.02),
-      rgba(255,255,255,0.01));
-      padding:20px;border-radius:12px;
-      box-shadow:0 6px 18px rgba(2,6,23,0.6)
-    }
-    section.topic{
-      margin-bottom:14px;padding-bottom:12px;
-      border-bottom:1px solid rgba(255,255,255,0.03)
-    }
-    section.topic h3{
-      margin:0 0 6px 0;font-size:16px;color:var(--accent)
-    }
+    main{background:transparent;padding:0}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    section.topic{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    section.topic h3{margin:0 0 6px 0;font-size:16px;color:var(--accent)}
     section.topic p{margin:0;color:var(--muted);line-height:1.4}
-    ul{margin:6px 0 0 18px;padding:0;color:var(--muted);font-size:13px}
     .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
-    .btn{
-      background:#0b2233;padding:8px 12px;border-radius:8px;
-      border:1px solid rgba(255,255,255,0.03);
-      color:var(--white);font-size:13px
-    }
+    .btn{background:#0b2233;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:var(--white);font-size:13px;cursor:pointer}
     .search{flex:1}
     .count{color:var(--muted);font-size:13px}
+    @media (max-width:900px){.container{grid-template-columns:1fr;}.nav{height:auto}}
+
+  @keyframes gradient-breath {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-breath {
+  background-size: 300% 300%;
+  animation: gradient-breath 14s ease-in-out infinite;
+}
+
   </style>
 </head>
 <body>
-
-<nav class="sticky top-0 z-50 backdrop-blur bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg animate-gradient-breath">
+  <nav class="sticky top-0 z-50 backdrop-blur bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg animate-gradient-breath">
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex justify-between h-16 items-center">
       <a href="./index.html" class="text-xl font-bold text-white">
@@ -66,13 +62,13 @@
 
       <a href="#start"
          class="hidden md:block bg-white text-indigo-600 px-4 py-2 rounded-md font-semibold hover:bg-gray-100">
-        Get Started..
+        Get Started.
       </a>
     </div>
   </div>
 </nav>
 
-<header>
+<header class="p-3">
   <h1>Ansible — 50-topic Interview-ready Cheat Sheet</h1>
   <p class="lead">Clear, concise, production-focused definitions with bullets for strong interview impact.</p>
 </header>

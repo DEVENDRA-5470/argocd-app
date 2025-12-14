@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+   <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>ArgoCD — 100-topic Interview-ready Cheat Sheet</title>
+  <style>
+    a{
+        text-decoration: none;
+        /* color: white; */
+    }
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#38bdf8;--white:#e6eef6}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#081022 0%, #071022 100%);color:var(--white);margin:0;}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+    h1{font-size:22px;margin:0}
+    p.lead{color:var(--muted);margin:0}
+    .container{display:grid;grid-template-columns:300px 1fr;gap:20px}
+    /* nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto} */
+    nav h2{font-size:14px;margin:0 0 8px 0}
+    nav ol{padding-left:18px;color:var(--muted);margin:0}
+    main{background:transparent;padding:0}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    section.topic{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    section.topic h3{margin:0 0 6px 0;font-size:16px;color:var(--accent)}
+    section.topic p{margin:0;color:var(--muted);line-height:1.4}
+    .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .btn{background:#0b2233;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:var(--white);font-size:13px;cursor:pointer}
+    .search{flex:1}
+    .count{color:var(--muted);font-size:13px}
+    @media (max-width:900px){.container{grid-template-columns:1fr;}.nav{height:auto}}
+
+  @keyframes gradient-breath {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-breath {
+  background-size: 300% 300%;
+  animation: gradient-breath 14s ease-in-out infinite;
+}
+
+  </style>
+</head>
+<body>
+  <nav class="sticky top-0 z-50 backdrop-blur bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg animate-gradient-breath">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between h-16 items-center">
+      <a href="./index.html" class="text-xl font-bold text-white">
+        DevOps Hub
+      </a>
+
+      <div class="hidden md:flex space-x-8">
+        <a href="./index.html" class="hover:text-white">Home</a>
+        <a href="./k8s.html" class="hover:text-white">Kubernetes</a>
+        <a href="./argocd.html" class="hover:text-white">ArgoCD</a>
+        <a href="./ansible.html" class="hover:text-white">Ansible</a>
+        <a href="./contact.html" class="hover:text-white">Contact</a>
+      </div>
+
+      <a href="#start"
+         class="hidden md:block bg-white text-indigo-600 px-4 py-2 rounded-md font-semibold hover:bg-gray-100">
+        Get Started.
+      </a>
+    </div>
+  </div>
+</nav>
+<!-- CONTENT -->
+<section class="py-24">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+
+    <h1 class="text-4xl md:text-5xl font-extrabold text-white">
+      So… you want to contact me?
+    </h1>
+
+    <p class="mt-6 text-lg text-gray-400">
+      Good choice. Most problems in DevOps start with  
+      “we didn’t communicate properly”.
+    </p>
+
+    <div class="mt-10 bg-gray-900 border border-gray-800 rounded-xl p-8 text-left">
+
+      <p class="text-gray-300">
+        Before you message me, quick checklist:
+      </p>
+
+      <ul class="mt-4 space-y-2 text-gray-400">
+        <li>• ❌ “Bro Kubernetes nahi chal raha” — not enough info</li>
+        <li>• ✅ Error logs + context — now we’re talking</li>
+        <li>• ❌ “Urgent pls reply” — everyone says that</li>
+        <li>• ✅ Clear problem statement — instant respect</li>
+      </ul>
+
+      <p class="mt-6 text-gray-300">
+        If that didn’t scare you away, congrats. You’re my kind of person.
+      </p>
+    </div>
+
+    <!-- CONTACT OPTIONS -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-indigo-500 transition">
+        <h3 class="text-xl font-semibold text-white">GitHub</h3>
+        <p class="mt-2 text-gray-400">
+          Code speaks louder than resumes.
+        </p>
+        <a href="https://github.com/" target="_blank"
+           class="mt-4 inline-block text-indigo-400 hover:text-indigo-300">
+          github.com/your-username →
+        </a>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-purple-500 transition">
+        <h3 class="text-xl font-semibold text-white">LinkedIn</h3>
+        <p class="mt-2 text-gray-400">
+          Yes, I do behave professionally there.
+        </p>
+        <a href="https://linkedin.com/" target="_blank"
+           class="mt-4 inline-block text-purple-400 hover:text-purple-300">
+          linkedin.com/in/your-profile →
+        </a>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-pink-500 transition">
+        <h3 class="text-xl font-semibold text-white">Email</h3>
+        <p class="mt-2 text-gray-400">
+          For serious discussions only.
+        </p>
+        <a href="mailto:youremail@example.com"
+           class="mt-4 inline-block text-pink-400 hover:text-pink-300">
+          youremail@example.com →
+        </a>
+      </div>
+
+    </div>
+
+    <p class="mt-14 text-gray-500 text-sm">
+      Warning: contacting me may result in learning something new.
+    </p>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-gray-800 py-6 bg-black text-center">
+  <p class="text-gray-500">
+    © 2025 DevOps Hub. Bugs fixed. Lessons learned.
+  </p>
+</footer>
+
+</body>
+</html>

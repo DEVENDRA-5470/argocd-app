@@ -3,19 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+   <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <title>ArgoCD — 100-topic Interview-ready Cheat Sheet</title>
   <style>
     a{
         text-decoration: none;
-        color: white;
+        /* color: white; */
     }
     :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#38bdf8;--white:#e6eef6}
-    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#081022 0%, #071022 100%);color:var(--white);margin:0;padding:32px}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#081022 0%, #071022 100%);color:var(--white);margin:0;}
     header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
     h1{font-size:22px;margin:0}
     p.lead{color:var(--muted);margin:0}
     .container{display:grid;grid-template-columns:300px 1fr;gap:20px}
-    nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto}
+    /* nav{background:var(--card);padding:16px;border-radius:10px;overflow:auto} */
     nav h2{font-size:14px;margin:0 0 8px 0}
     nav ol{padding-left:18px;color:var(--muted);margin:0}
     main{background:transparent;padding:0}
@@ -28,16 +30,21 @@
     .search{flex:1}
     .count{color:var(--muted);font-size:13px}
     @media (max-width:900px){.container{grid-template-columns:1fr;}.nav{height:auto}}
+
+  @keyframes gradient-breath {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-breath {
+  background-size: 300% 300%;
+  animation: gradient-breath 14s ease-in-out infinite;
+}
+
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>ArgoCD — 100-topic Interview-ready Cheat Sheet</h1>
-      <p class="lead">Concise, production-focused definitions for fast interview prep. Each topic: 2–4 lines.</p>
-    </div>
-  </header>
-
   <nav class="sticky top-0 z-50 backdrop-blur bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg animate-gradient-breath">
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex justify-between h-16 items-center">
@@ -61,10 +68,18 @@
   </div>
 </nav>
 
+<header class="p-3">
+    <div>
+      <h1>ArgoCD — 100-topic Interview-ready Cheat Sheet</h1>
+      <p class="lead">Concise, production-focused definitions for fast interview prep. Each topic: 2–4 lines.</p>
+    </div>
+  </header>
+
+
   <div class="container">
     <nav class="card" id="toc">
       <h2>Contents (100 topics)</h2>
-      <ol>
+      <ol style="color: white;">
         <!-- we'll include top-level numbered links -->
         <!-- Core 30 -->
         <li><a href="#t1"> GitOps Principles</a></li>
